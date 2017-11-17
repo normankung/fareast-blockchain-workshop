@@ -28,7 +28,7 @@ import (
 
 	localRW "chaincodes/chaincode-localRWv1.0"
 
-	"chaincodes/LoyaltyPoint/control"
+	"chaincodes/loyalty/control"
 
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	pb "github.com/hyperledger/fabric/protos/peer"

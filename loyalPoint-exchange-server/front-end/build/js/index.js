@@ -1,3 +1,11 @@
+socket
+    .on('connect', function (res) {
+        alert('connect')
+    })
+socket.on('test', function (res) {
+    alert('test success ' + JSON.stringify(res))
+})
+
 function alertButtonOnClick(e) {
     console.log('been clicked')
     window.alert("click")

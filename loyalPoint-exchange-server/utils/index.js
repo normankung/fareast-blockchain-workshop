@@ -13,12 +13,10 @@ var postRequest = (url, body) => {
             } else {
                 console.log(resp.statusCode)
                 if (resp.statusCode != 200) {
-                    console.log(' result err')
-                    console.log(body)
+                    // console.log(' result err') console.log(body)
                     rj(body)
                 } else {
-                    console.log('result success')
-                    console.log(body)
+                    // console.log('result success') console.log(body)
                     rs(body)
                 }
             }
@@ -30,16 +28,14 @@ module.exports.postRequest = postRequest
 var makeChancodeInokeBody = (functionName, args) => {
     return {chaincodeName: config.fabric.ccName, channelName: config.fabric.channelName, functionName, args, user: config.fabric.user}
 }
-module.exports.makeChancodeInokeBody = makeChancodeInokeBody
 
 module.exports.invokeBlockchain = (url, functionName, args) => {
     invokeBody = makeChancodeInokeBody(functionName, args)
     console.log("invokeBody")
-    console.log(invokeBody)
+    // console.log(invokeBody)
     return postRequest(url, invokeBody)
 
 }
-
 class responseHelper {
     constructor(res) {
         this.res = res

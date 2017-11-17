@@ -1,9 +1,9 @@
 package control
 
 import (
-	"chaincodes/LoyaltyPoint/config"
-	"chaincodes/LoyaltyPoint/model/Org"
-	"chaincodes/LoyaltyPoint/model/User"
+	"chaincodes/loyalty/config"
+	"chaincodes/loyalty/model/Org"
+	"chaincodes/loyalty/model/User"
 	"fmt"
 
 	"github.com/hyperledger/fabric/core/chaincode/shim"

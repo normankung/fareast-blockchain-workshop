@@ -6,7 +6,7 @@ module.exports = {
             chaincodeQuery: '/chaincode/query'
         },
         issuserServer: {
-            remainPoint: '/user/remain'
+            remainPoint: '/user/point'
         }
     }
 }

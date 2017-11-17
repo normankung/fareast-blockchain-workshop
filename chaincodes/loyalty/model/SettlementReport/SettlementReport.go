@@ -1,7 +1,7 @@
 package SettlementReport
 
 import (
-	"chaincodes/LoyaltyPoint/interfaces"
+	"chaincodes/loyalty/interfaces"
 	"fmt"
 
 	db "chaincodes/chaincode-DbWrapv1.0"

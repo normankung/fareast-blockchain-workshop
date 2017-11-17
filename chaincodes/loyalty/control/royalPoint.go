@@ -1,12 +1,12 @@
 package control
 
 import (
-	"chaincodes/LoyaltyPoint/config"
-	"chaincodes/LoyaltyPoint/model/Org"
-	"chaincodes/LoyaltyPoint/model/SettlementReport"
-	"chaincodes/LoyaltyPoint/model/TxHistory"
-	"chaincodes/LoyaltyPoint/model/User"
-	"chaincodes/LoyaltyPoint/utils"
+	"chaincodes/loyalty/config"
+	"chaincodes/loyalty/model/Org"
+	"chaincodes/loyalty/model/SettlementReport"
+	"chaincodes/loyalty/model/TxHistory"
+	"chaincodes/loyalty/model/User"
+	"chaincodes/loyalty/utils"
 	"encoding/json"
 	"fmt"
 	"strconv"
@@ -135,7 +135,7 @@ func (t *InvokeInterface) Invoke_Exchange_Point(stub shim.ChaincodeStubInterface
 	}
 	eventType := "Deduct_Point"
 
-	err = setEvent(stub, eventType, []string{sourceOrgID, pointAmountString})
+	err = setEvent(stub, eventType, []string{sourceOrgID, userID, pointAmountString})
 	if err != nil {
 		return nil, err
 	}
@@ -455,9 +455,11 @@ func makeEventJSON(eventType string, args []string) ([]byte, error) {
 	case "Deduct_Point":
 		{
 			orgName := args[0]
-			deductAmount := args[1]
+			userID := args[1]
+			deductAmount := args[2]
 			jsonMap := map[string]string{
 				"orgName":      orgName,
+				"userID":       userID,
 				"deductAmount": deductAmount,
 			}
 			return json.Marshal(jsonMap)
