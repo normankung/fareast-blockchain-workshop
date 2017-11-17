@@ -1,0 +1,9 @@
+{
+    "shopSevConfig": {
+        "shopId" : "H-002",
+        "shopName" : "shopB",
+        "orgId" : "H",
+        "port" : "3001",
+        "orgPort" : "5000"
+    }
+}
