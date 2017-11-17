@@ -2,11 +2,12 @@ package db
 
 import (
 	"bytes"
-	"chaincodes/RoyalPoint/config"
-	"chaincodes/RoyalPoint/interfaces"
 	"encoding/json"
 	"fmt"
 	"strconv"
+
+	"chaincodes/loyalty/config"
+	"chaincodes/loyalty/interfaces"
 
 	localRW "chaincodes/chaincode-localRWv1.0"
 
