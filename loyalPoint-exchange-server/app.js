@@ -13,5 +13,3 @@ app.use(API)
 http.listen(config.port, function () {
     console.log('listening on *:3000');
 });
-
-//testestest
