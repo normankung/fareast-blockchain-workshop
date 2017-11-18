@@ -1,7 +1,7 @@
 {
     "issuerAddress":{
         "F":"http://localhost:5001",
-        "H":"http://localhost:5002"
+        "H":"http://192.168.1.101:5000"
     },
     "gatewayAddress":"http://localhost:4001",
     "port":5003,

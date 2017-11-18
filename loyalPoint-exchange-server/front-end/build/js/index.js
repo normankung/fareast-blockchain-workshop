@@ -1,9 +1,15 @@
 socket
     .on('connect', function (res) {
-        alert('connect')
+        // alert('connect')
     })
-socket.on('test', function (res) {
-    alert('test success ' + JSON.stringify(res))
+socket.on('Redeem_Finish', function (res) {
+    console.log(res)
+    console.log(res.userID)
+    console.log(currentUser)
+
+    if (res.userID == currentUser) {
+        showRedeemHistory(currentUser)
+    }
 })
 
 function alertButtonOnClick(e) {
@@ -120,7 +126,7 @@ function showRedeemHistory(userID) {
         if (response.status == 'ok') {
             console.log('start to append')
             console.log(response.result)
-
+            allTrTds = ""
             for (let i = 0; i < response.result.length; i++) {
                 var mataData = JSON.parse(response.result[i].MetaData)
                 var tds = ""
@@ -131,9 +137,9 @@ function showRedeemHistory(userID) {
                 tds += "<td class=\"clean\">" + mataData.Summary + "</td>"
                 tds += "<td class=\"clean\">" + response.result[i].Date + "</td>"
 
-                $('#redeem-table').append(`<tr class="even pointer clean">` + tds + "</tr>")
-
+                allTrTds += `<tr class="even pointer clean">` + tds + "</tr>"
             }
+            $('#redeem-table').html(allTrTds)
         }
 
     })

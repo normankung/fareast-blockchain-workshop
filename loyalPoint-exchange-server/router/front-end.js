@@ -94,6 +94,7 @@ router.post("/user/txHistory/exchange", (req, res) => {
 
 router.post("/user/txHistory/redeem", (req, res) => {
     let resHelper = new utils.responseHelper(res)
+    console.log(req.body)
     let {userID} = req.body;
     let orgID = userData[userID].orgID
     let url = config.gatewayAddress + constants.router.gateway.chaincodeQuery
