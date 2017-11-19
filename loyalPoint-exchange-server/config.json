@@ -1,13 +1,13 @@
 {
     "issuerAddress":{
         "F":"http://localhost:5001",
-        "H":"http://localhost:5002"
+        "H":"http://localhost:5000"
     },
     "gatewayAddress":"http://localhost:4001",
     "port":5003,
     "fabric":{
         "channelName":"mychannel",
-        "ccName":"r16",
+        "ccName":"r0",
         "user": {
             "enrollID": "orgAdmin",
             "enrollSecret": "87654321"

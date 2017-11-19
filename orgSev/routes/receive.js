@@ -1,10 +1,11 @@
-var express = require('express');
-var router = express.Router();
+var router = require('./index');
 var config = require('../config');
 var myParser = require("body-parser");
 var fs = require('fs');
 var path = require('path');
 var rp = require("request-promise");
+var utils = require('../utils')
+var constants = require('../constants')
 var dbPath = config.orgSevConfig.orgId;
 
 // var shopID = config.shopSevConfig.shopId;
@@ -33,7 +34,6 @@ function reWrite(db) {
     else if(db == "org"){
         fs.writeFileSync(OrgDataPath, JSON.stringify(orgData));
     }
-    
 }
 
 function callAPI(urlAPI, postData){
@@ -53,8 +53,13 @@ function callAPI(urlAPI, postData){
     })
 }
 
+var io
+setTimeout(function() {
+    io = require('../io').getIo()
+}, 2000);
+
 // Give loyalty point to user
-router.post("/issue", (req, res) => {
+router.post("/receive/issue", (req, res) => {
     var shopId = req.body.shopId;
     var issuePoint = req.body.issuePoint;
     var userId = req.body.userId;
@@ -69,53 +74,42 @@ router.post("/issue", (req, res) => {
     reWrite("user");
     reWrite("org");
 
+    io.emit('shopIssuePoints')
+
     // response
     res.json({status: 'ok', api: 'receive/issue', reason: ''})
 })
 
 // Receive loyalty point from user
-router.post("/receive", (req, res) => {
-    var shopId = req.body.shopId;
-    var holdPoint = req.body.holdPoint;
-    var userId = req.body.userId;
-    var redeemMetaData = req.body.redeemMetaData;
+router.post("/receive/receive", (req, res) => {
+    var shopId = req.body.shopId
+    var holdPoint = req.body.holdPoint
+    var userId = req.body.userId
+    var redeemMetaData = req.body.redeemMetaData
+    // var csArray = [userId, targetOrgID, holdPoint.toString(), JSON.stringify(redeemMetaData)]
+    // console.log(csArray)
+
 
     // Check UserId
     if (!userData.user[userId]) {
         // If user belong to other org
         // Trigger BlockChain
-        config.orgSevConfig.orgId == "H" ? targetOrgID = "H" : targetOrgID = "F";
-
-        var sendJson ={
-            "chaincodeName": "r0",
-            "channelName": "mychannel",
-            "functionName": "Invoke_Redeem_Point",
-            "args": [userId, targetOrgID, holdPoint.toString(), JSON.stringify(redeemMetaData)
-            ],
-            "user": {
-              "enrollID": "orgAdmin",
-              "enrollSecret": "87654321"
-            }
-        }
-        // console.log(sendJson);
-        var url = "http://localhost:4001/chaincode/invoke";
-        var invoke = callAPI(url, sendJson)
-        .then((resp)=>{
-            // resp = JSON.parse(resp.sdkResult);
-            console.log(resp);
-            return Promise.resolve(resp); // 怎樣判斷有無問題？ Return感覺很亂
-        });
-
-        invoke.then((resp) => {
-            // console.log(resp)
-            shopData.shop[shopId].holdPoint += holdPoint;
-            orgData.issuePoint -= holdPoint;
-
-            reWrite("shop");
-            reWrite("org");
-            res.json({"status" : "ok"})
-        })
-        // res.json({"status" : "okZ"})
+        var targetOrgID = config.orgSevConfig.orgId// == "H" ? "H" : "F"
+        let url = config.gatewayAddress + constants.router.gateway.chaincodeInvoke
+        var csArray = [userId, targetOrgID, holdPoint.toString(), JSON.stringify(redeemMetaData)]
+        console.log(csArray)
+        utils
+            .invokeBlockchain(url, "Invoke_Redeem_Point", [userId,targetOrgID,holdPoint,JSON.stringify(redeemMetaData)])
+            .then((result) => {
+                console.log(result);
+                shopData.shop[shopId].holdPoint += holdPoint;
+                // orgData.issuePoint -= holdPoint;
+    
+                reWrite("shop");
+                // reWrite("org");
+                res.json({"status" : "ok"})
+                io.emit('shopReceivePoints')
+            })
     }
     else{
         // If user belong to org
@@ -133,87 +127,63 @@ router.post("/receive", (req, res) => {
         // rewrite into db
         reWrite("shop");
         reWrite("user");
-        reWrite("org");
 
         // response
         res.json({status: 'ok', api: 'receive/receive', reason: ''})
+        io.emit('shopReceivePoints')
     }
 })
 
-// Query User's Point
-router.post("/queryUser", (req, res) => {
-    var userId = req.body.userId;
-    var point = userData.user[userId].point;
+router.post("/receive/settlementWithOrg", (req, res)=>{
+    var balance = req.body.balance
+    var seqNum = req.body.seqNum
 
-    res.json({point: point})
+    // 先到Blockchain查詢
+    let reportID = parseInt(seqNum)
+    let url1 = config.gatewayAddress + constants.router.gateway.chaincodeQuery
+    utils
+        .invokeBlockchain(url1, "Query_Settlement_Report", [reportID.toString()])
+        .then((result) => {
+            let blockchainResult = JSON.parse(result.sdkResult)
+            let jsonFile = {}
+            let me = blockchainResult[0].SettlementReports[config.orgSevConfig.orgId]
+            let HaveSettle = blockchainResult[0].HaveSettle
+            // 如果有值， balance一樣， 還沒settle
+            if (blockchainResult[0] && me.Money == (balance*-1) && HaveSettle == "false") {            
+                console.log("Confirm report")
+                console.log(blockchainResult)
+                
+                // After confirm report
+                // Start trigger blockchain
+                console.log("Start trigger blockchain")
+                let url2 = config.gatewayAddress + constants.router.gateway.chaincodeInvoke
+                utils
+                    .invokeBlockchain(url2, "Invoke_Settlement", [seqNum])
+                    .then((result) => {
+                        blockchainResult = result.sdkResult
+                        console.log(blockchainResult)
+                        if (blockchainResult != "") {
+                            return {status : "ok"}
+                        }
+                    })
+                    .then((result)=>{
+                        if (result.status == "ok") {
+                            // 伺服器資料庫修正
+                            var point = parseInt(me.Point)
+                            orgData.balance -= balance // Need to confirm
+                            orgData.issuePoint += point
+                            reWrite("org");
+                            res.json({status: "ok"}); 
+                        }
+                        else{
+                            res.json({status: "fail"}); 
+                        }
+                    })
+            }
+            else{
+                res.json({status: "fail", reason: "query error!"})
+            }
+        })
 })
-
-// Query Users's Point
-router.post("/queryUsers", (req, res) => {
-    res.json(userData.user);
-})
-
-// User exchange Point and then reduce point
-router.post("/reducePoint", (req, res) => {
-    var userId = req.body.userId;
-    var exchangePoint = req.body.exchangePoint;
-
-    // Update userData
-    userData.user[userId].point -= exchangePoint;
-
-    //rewrite into db
-    reWrite("user");
-
-    res.json({"status": "ok"});
-})
-
-router.post("/settlementWithOrgReceive", (req, res)=>{
-    var moneyNum = req.body.money;
-    var reportIdString = req.body.reportId;
-
-    // 收到錢的balance後，跟blockchain進行確認
-    // Trigger Blockchain
-    var sendJson = {
-        "chaincodeName": "r0",
-        "channelName": "mychannel",
-        "functionName": "Invoke_Settlement",
-        "args": [
-            reportIdString
-        ],
-        "user": {
-            "enrollID": "orgAdmin",
-            "enrollSecret": "87654321"
-        }
-    }
-
-    // console.log(sendJson);
-    var url = "http://localhost:4001/chaincode/invoke";
-    var invoke = callAPI(url, sendJson)
-    .then((resp)=>{
-        // 伺服器資料庫修正
-        orgData.balance += moneyNum; // Need to confirm
-        reWrite("org");
-        
-        resp.json({"status": "ok"});  
-        // return Promise.resolve(resp)        
-    });
-
-    //改變blockchain record後回傳到另一個orgSev
-    // invoke.then((res)=>{
-    //     var sendJson = {"status": "ok"}
-    //     var url = "http://localhost:5000/chaincode/invoke"; // 要修正port
-    //     callAPI(url, sendJson)
-    //     .then((resp)=>{
-    //         orgData.balance += moneyNum; // Need to confirm
-    //         reWrite("org");
-    //         resp.json({"status": "ok"});      
-    //     });
-    // })
-    // org balance 在這時候要先修改？
-})
-
-// router.get('/', function(req, res, next) {
-//     res.render('trigger', { shopData: shopData.shop });
-// });
 
 module.exports = router;
