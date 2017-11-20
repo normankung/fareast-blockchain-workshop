@@ -1,5 +1,4 @@
-var express = require('express');
-var router = express.Router();
+var router = require('./index');
 var config = require('../config');
 var myParser = require("body-parser");
 var fs = require('fs');
@@ -34,10 +33,10 @@ function callAPI(urlAPI, postData){
 }
 
 // Shop give User Point
-router.post("/issue", (req, res) => {
+router.post("/trigger/issue", (req, res) => {
     // Input data
-    var userId = req.body.userId;
-    var issuePoint = req.body.issuePoint;
+    var userId = req.body.userId
+    var issuePoint = parseInt(req.body.issuePoint)
 
     // Trigger orgSev
     var url = "http://localhost:"+ config.shopSevConfig.orgPort +"/receive/issue";
@@ -55,7 +54,7 @@ router.post("/issue", (req, res) => {
             shopData.issuePoint += issuePoint;
             // Update DB's Json File
             reWrite();
-            res.json({status: 'ok', api: 'trigger/issue', reason: ''});      
+            res.json({status: 'ok', issuePoint: shopData.issuePoint, api: 'trigger/issue', reason: ''});      
         }
         else{
             res.json({status: 'fail', api: 'trigger/issue', reason: ''})  
@@ -64,26 +63,26 @@ router.post("/issue", (req, res) => {
 })
 
 // Shop receive User Point
-router.post("/receive", (req, res) => {
+router.post("/trigger/receive", (req, res) => {
     // Input data
-    var userId = req.body.userId;
-    var holdPoint = req.body.holdPoint;
-    var ProductID = req.body.ProductID;
-    var Price = req.body.Price;
-    var Summary = req.body.Summary;
+    var userId = req.body.userId
+    var itemId = req.body.itemId
+    var point = shopData.items[itemId].point
+    var cash = shopData.items[itemId].cash
+    var summary = "Nothing"
 
     var redeemMetaData = {
-        "ProductID" : ProductID,
-        "Price" : Price.toString(),
-        "Point" : holdPoint.toString(),
-        "Summary" : Summary
+        "ProductID" : itemId,
+        "Price" : point.toString(),
+        "Point" : cash.toString(),
+        "Summary" : summary
     }
 
     // Trigger orgSev
     var url = "http://localhost:"+ config.shopSevConfig.orgPort +"/receive/receive";
     var sendJson = {
         shopId: config.shopSevConfig.shopId,
-        holdPoint: holdPoint,
+        holdPoint: point,
         userId: userId,
 
         redeemMetaData: redeemMetaData
@@ -93,10 +92,10 @@ router.post("/receive", (req, res) => {
         if (resp.status == "ok"){
             console.log(resp);
             // Calculate data
-            shopData.holdPoint += holdPoint;
+            shopData.holdPoint += point;
             // Update DB's Json File
             reWrite();
-            res.json({status: 'ok', api: 'trigger/receive', reason: ''});      
+            res.json({status: 'ok', holdPoint: shopData.holdPoint, api: 'trigger/receive', reason: ''});      
         }
         else{
             res.json(resp)  

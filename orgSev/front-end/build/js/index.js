@@ -71,8 +71,8 @@ function shopsData(){
         for (var id in response.shopData){
             var tds = ""
             tds += "<td class=\"clean\">" + id + "</td>"
-            tds += "<td class=\"clean\">" + response.shopData[id].holdPoint + "</td>"
             tds += "<td class=\"clean\">" + response.shopData[id].issuePoint + "</td>"
+            tds += "<td class=\"clean\">" + response.shopData[id].holdPoint + "</td>"
             
             $('#shopData-table').append(`<tr class="">` + tds + "</tr>")
         }
@@ -110,6 +110,7 @@ $(document).on('click', '.settlementButton', function (event) {
             $('#settlementResult').append("<div class=\"clean\">清算成功</div>")
         }
         else{
+            console.log(response)
             $('#settlementResult').append("清算失敗")
         }
     })
