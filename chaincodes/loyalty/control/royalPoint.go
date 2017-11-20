@@ -143,8 +143,8 @@ func (t *InvokeInterface) Invoke_Exchange_Point(stub shim.ChaincodeStubInterface
 	return []byte(fmt.Sprintf("User %s exchange %s success", user.UserID, pointAmountString)), nil
 }
 func (t *InvokeInterface) Invoke_Redeem_Point(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
-	if length := len(args); length != 4 {
-		return nil, fmt.Errorf("error args len, expect 3 ")
+	if length := len(args); length != 5 {
+		return nil, fmt.Errorf("error args len, expect 4 ")
 	}
 	txDate := args[0]
 	userID := args[1]

@@ -96,19 +96,22 @@ router.post("/receive/receive", (req, res) => {
         // Trigger BlockChain
         var targetOrgID = config.orgSevConfig.orgId// == "H" ? "H" : "F"
         let url = config.gatewayAddress + constants.router.gateway.chaincodeInvoke
-        var csArray = [userId, targetOrgID, holdPoint.toString(), JSON.stringify(redeemMetaData)]
+        redeemMetaData = JSON.stringify(redeemMetaData)
+        var csArray = [userId, targetOrgID, holdPoint.toString(), redeemMetaData]
+        // console.log(typeof(redeemMetaData))
         console.log(csArray)
         utils
-            .invokeBlockchain(url, "Invoke_Redeem_Point", [userId,targetOrgID,holdPoint,JSON.stringify(redeemMetaData)])
+            .invokeBlockchain(url, "Invoke_Redeem_Point", csArray)
             .then((result) => {
-                console.log(result);
-                shopData.shop[shopId].holdPoint += holdPoint;
-                // orgData.issuePoint -= holdPoint;
+                console.log(result)
+                shopData.shop[shopId].holdPoint += holdPoint
     
                 reWrite("shop");
-                // reWrite("org");
                 res.json({"status" : "ok"})
                 io.emit('shopReceivePoints')
+            })
+            .catch((e) => {
+                res.json({"status" : "fail", "reason":e})
             })
     }
     else{
