@@ -3,6 +3,20 @@ var defaultConfig = {
         "orgId": "H",
         "orgName": "HappyGo",
         "port": "5000"
+    },
+    "issuerAddress":{
+        "H":"http://localhost:5000",
+        "F":"http://localhost:5001"
+    },
+    "gatewayAddress":"http://localhost:4001",
+    "fabric":{
+        "channelName":"mychannel",
+        "ccName":"r0",
+        "user": {
+            "enrollID": "orgAdmin",
+            "enrollSecret": "87654321"
+     
+        }
     }
 }
 

@@ -161,13 +161,13 @@ function settlementWithOrgButton(seqNum, balance) {
     let removeTD = seqNum + "settlementWithOrg" 
     $("#"+removeTD).replaceWith("<td>已傳送</td>")
 
-    // $.post('/trigger/settlementWithOrg',{seqNum:seqNum, balance:balance}, 
-    // (response) => {
-    //     if (response.status == "ok"){
-    //         // Do Something
-    //     }
-    //     else{
-    //         $("#"+removeTD).append("錯誤！請聯絡管理員！")
-    //     }
-    // })
+    $.post('/trigger/settlementWithOrg',{seqNum:seqNum, balance:balance}, 
+    (response) => {
+        if (response.status == "ok"){
+            // Do Something
+        }
+        else{
+            $("#"+removeTD).append("錯誤！請聯絡管理員！")
+        }
+    })
 }
