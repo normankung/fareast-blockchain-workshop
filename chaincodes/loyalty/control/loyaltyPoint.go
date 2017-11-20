@@ -139,6 +139,12 @@ func (t *InvokeInterface) Invoke_Exchange_Point(stub shim.ChaincodeStubInterface
 	if err != nil {
 		return nil, err
 	}
+	eventType = "Add_Issue_Point"
+	err = setEvent(stub, eventType, []string{targetOrgID, pointAmountString})
+
+	if err != nil {
+		return nil, err
+	}
 
 	return []byte(fmt.Sprintf("User %s exchange %s success", user.UserID, pointAmountString)), nil
 }
@@ -426,6 +432,15 @@ func getOrgByOrgID(stub shim.ChaincodeStubInterface, orgID string) (*Org.Org, er
 
 func setEvent(stub shim.ChaincodeStubInterface, eventType string, args []string) error {
 	switch eventType {
+	case "Add_Issue_Point":
+		{
+			msgBytes, err := makeEventJSON(eventType, args)
+			err = stub.SetEvent(eventType, []byte(msgBytes))
+			if err != nil {
+				return err
+			}
+			return nil
+		}
 	case "Redeem_Point":
 		{
 			redeemMsgBytes, err := makeEventJSON(eventType, args)
@@ -467,6 +482,17 @@ func setEvent(stub shim.ChaincodeStubInterface, eventType string, args []string)
 func makeEventJSON(eventType string, args []string) ([]byte, error) {
 
 	switch eventType {
+	case "Add_Issue_Point":
+		{
+			orgName := args[0]
+			IssueAmount := args[1]
+			jsonMap := map[string]string{
+				"orgName":     orgName,
+				"IssueAmount": IssueAmount,
+			}
+			return json.Marshal(jsonMap)
+
+		}
 	case "Redeem_Point":
 		{
 			orgName := args[0]
