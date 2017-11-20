@@ -8,7 +8,7 @@ socket.on('Redeem_Finish', function (res) {
     console.log(currentUser)
 
     if (res.userID == currentUser) {
-        showRedeemHistory(currentUser)
+        userChange()
     }
 })
 
