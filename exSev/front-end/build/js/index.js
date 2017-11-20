@@ -75,7 +75,9 @@ $(document).on('click', '.userButton', function (event) {
     userChange()
 });
 function userChange() {
+    console.log('start to userchange')
     clean()
+    console.log('clean finish')
     $(".userName").text("使用者 " + currentUser)
     showPoints(currentUser)
     showRedeemHistory(currentUser)
@@ -91,11 +93,13 @@ $(document)
 // class="count_top"><i class="fa fa-user"></i> Total Users</span>     <span
 // class="count_bottom"><i class="green">4% </i> From last Week</span>   </div>
 function showPoints(userID) {
+    console.log('start to post for points')
     $.post('/user/points', {
         userID: userID
     }, (response) => {
         if (response.status == 'ok') {
-            console.log('start to append')
+            console.log('start to append for user points ')
+            console.log(response.result)
             for (var orgID in response.result) {
                 var divContent = ""
                 divContent += `<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count clean">`

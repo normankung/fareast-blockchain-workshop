@@ -41,6 +41,8 @@ router.post('/fabric-event', (req, res) => {
         .from(req.body.payload.data)
         .toString()
     console.log(payload)
+    console.log("===================")
+    console.log(req.body.event_name)
     payload =JSON.parse(payload)
     switch (req.body.event_name){
         case "Deduct_Point_H":
