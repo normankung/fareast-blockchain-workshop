@@ -32,6 +32,7 @@
   <body class="nav-md">
     <div class="container body">
       <div class="main_container">
+        <!-- Left bar -->
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
@@ -87,6 +88,7 @@
             <!-- /menu footer buttons -->
           </div>
         </div>
+        <!-- /Left bar -->
 
         <!-- top navigation -->
         <div class="top_nav">
@@ -98,21 +100,13 @@
 
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
-                  <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                  <a href="javascript:;" class="user-profile" aria-expanded="false">
                     <div style="display:flex">
                       <img src="images/img.jpg" alt=""><div class="orgName"></div>
                       <span class=" fa fa-angle-down"></span>
                     </div>  
                   </a>
                   <!-- 覺得可以切換sev應該不錯 -->
-                </li>
-
-                <!-- 可以收blockchain的資料 -->
-                <li role="presentation" class="dropdown">
-                  <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
-                    <i class="fa fa-envelope-o"></i>
-                    <span class="badge bg-green">1</span>
-                  </a>
                 </li>
               </ul>
             </nav>
@@ -126,7 +120,7 @@
           <!-- /Settlement with shop -->
           <!-- /Function Trigger -->
           
-          <!-- Data Present -->
+          <!-- Database -->
           <div class="row">
             <!-- ShopData -->
             <div class="col-md-6 col-sm-12 col-xs-12">
@@ -206,7 +200,88 @@
                 </div>     
               </div>
           </div>          
-          <!-- /Data Present -->
+          <!-- /Database -->
+
+          <!-- Settlement with Shops -->
+          <div class="row">
+            <div class="col-md-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2>Settlement With Shops</h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li style="float:right">
+                      <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <div class="row">
+                      <div class="col-md-3 col-sm-3 col-xs-12">
+                        <button class="btn btn-sm btn-primary settlementButton" type="button"><i class="fa fa-money"></i> Settlement</button>
+                      </div>
+                      <div class="col-md-9 col-sm-9 col-xs-12 mail_view">
+                          <div id="settlementResult"></div>
+                      </div> 
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /Settlement with Shops -->
+
+          <!-- Settlement with Org -->
+          <!-- List > QueryNewest > Settle(Trigger Org) > Receive Blockchain Request -->
+          <div class="row">
+              <div class="col-md-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Settlement With Org</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li style="float:right">
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                          <form class="form-horizontal form-label-left input_mask" id="queryReport">
+                              <div class="form-group">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <input required type="text" class="form-control" placeholder="輸入報表編號">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                              <div class="col-md-12 col-sm-12 col-xs-12"></div>
+                              <button class="btn btn-primary" type="submit"><i class="fa fa-money"></i> Search</button>
+                            </div>
+                            <!-- <button class="btn btn-sm btn-primary queryReportButton" type="button"><i class="fa fa-money"></i> 查詢報表</button> -->
+                          </form>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-xs-12 mail_view">
+                            <table class="table table-striped">
+                              <thead>
+                                <tr>
+                                  <th>#SeqNum</th>
+                                  <th>持有對方點數</th>
+                                  <th>需結清金額</th>
+                                  <th>狀態</th>
+                                </tr>
+                              </thead>
+                              <tbody id="report-table">
+                              </tbody>
+                            </table>
+                          <div id="queryReportResult" style="text-align: center"></div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <!-- /Settlement with Org -->
+
         </div>
         <!-- /page content -->
 
@@ -261,6 +336,10 @@
 
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
+    <script src="../vendors/socket.io-client/dist/socket.io.js"></script>
+    <script>
+      var socket = io();
+    </script>
     <script src="../build/js/index.js"></script>
   </body>
 </html>

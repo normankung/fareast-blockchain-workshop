@@ -1,5 +1,4 @@
-var express = require('express');
-var router = express.Router();
+var router = require('./index');
 var config = require('../config');
 var myParser = require("body-parser");
 var fs = require('fs');
@@ -49,7 +48,7 @@ function callAPI(urlAPI, postData){
    
 }
 
-router.post("/settlement", (req, res) => {
+router.post("/trigger/settlement", (req, res) => {
     var issuePointRate = 1;
     var holdPointRate = 1;
     var promisesArray = [];
@@ -96,79 +95,36 @@ router.post("/settlement", (req, res) => {
         reWrite("org");
 
         // response
-        res.json({status: 'ok', reason: ''})        
+        res.json({status: 'ok', reason: ''})    
+        io.emit('settlementWithShops')    
     }).catch((err)=>{
         res.json({err})
     })
 })
 
-// exchangeSev 的 API, 這裡不會用到了
-router.post("/generateReport", (req, res)=>{
-    // Trigger Blockchain
-    var sendJson ={
-        "chaincodeName": "r0",
-        "channelName": "mychannel",
-        "functionName": "Invoke_Generate_Settlement_Report",
-        "args": [],
-        "user": {
-          "enrollID": "orgAdmin",
-          "enrollSecret": "87654321"
-        }
-    }
-
-    // console.log(sendJson);
-    var url = "http://localhost:4001/chaincode/invoke";
-    var invoke = callAPI(url, sendJson)
-    .then((resp)=>{
-        console.log(resp);
-        // return Promise.resolve(resp); // 怎樣判斷有無問題？ Return感覺很亂
-        res.json({"status": "ok", api: 'trigger/generateReport'})
-    });
-})
-
-// query report from blockchain
-router.post("/queryReport", (req, res)=>{
-    var version = req.body.version.toString(); // 輸入要查詢的版本
+/* 傳送清算balance給另一台orgSev */
+router.post("/trigger/settlementWithOrg", (req, res)=>{
+    var seqNum = req.body.seqNum
+    var balance = parseInt(req.body.balance)    
 
     // Trigger Blockchain
-    var sendJson ={
-        "chaincodeName": "r0",
-        "channelName": "mychannel",
-        "functionName": "Query_Settlement_Report",
-        "args": [ version ],
-        "user": {
-          "enrollID": "orgAdmin",
-          "enrollSecret": "87654321"
-        }
-    }
-
+    var sendJson ={seqNum: seqNum, balance: balance}
+    
     // console.log(sendJson);
-    var url = "http://localhost:4001/chaincode/invoke";
-    var invoke = callAPI(url, sendJson)
-    .then((resp)=>{
-        var result = JSON.parse(resp.sdkResult);
-        var orgId = config.orgSevConfig.orgId;
-        console.log(result[0].HaveSettle);
-        console.log(result[0].SettlementReports[orgId]); // Notice
-        res.json(resp)
-    });
-})
+    var target = (config.orgSevConfig.orgId === "H") ? "F" : "H"
 
-// 結清balance
-router.post("/settlementWithOrgTrigger", (req, res)=>{
-    var moneyNum = req.body.money;
-    // Trigger Blockchain
-    var sendJson ={"balance": money}
-
-    // console.log(sendJson);
-    var url = "http://localhost:5001/receive/settlementWithOrgReceive"; // 要修正port
+    var url = config.issuerAddress[target] + "/receive/settlementWithOrg";
     var invoke = callAPI(url, sendJson)
-    .then((resp)=>{
+    .then((result)=>{
         // Trigger 成功後這裡的資料也做修正
-        orgData.balance += moneyNum; // Need to be confirm
-        reWrite("org");
-
-        res.json(resp);
+        if (result.status == "ok") {
+            orgData.balance += balance // Need to be confirm
+            reWrite("org")
+            res.json({status: "ok"})
+        }
+        else{
+            res.json({status: "fail"})
+        } 
     });
 })
 

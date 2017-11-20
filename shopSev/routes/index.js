@@ -1,9 +1,18 @@
-var express = require('express');
-var router = express.Router();
+var router = require('express').Router();
+var fs = require('fs')
+module.exports = router
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+var exFile = ['receive.js', 'trigger.js', 'receive.js', 'front-end.js' ]
+var files = fs.readdirSync(__dirname)
 
-module.exports = router;
+files.forEach((file) => {
+    var ex = false
+    for (var i = 0; i < exFile.length; i++) {
+        if (file == exFile[i]) {
+            ex = true
+        }
+    }
+    if (ex) {
+        require('./' + file)
+    }
+})
