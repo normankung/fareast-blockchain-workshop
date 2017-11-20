@@ -174,7 +174,7 @@ router.post("/receive/settlementWithOrg", (req, res)=>{
                             // 伺服器資料庫修正
                             var point = parseInt(me.Point)
                             orgData.balance -= balance // Need to confirm
-                            orgData.issuePoint += point
+                            // orgData.issuePoint += point
                             reWrite("org");
                             res.json({status: "ok"}); 
                         }

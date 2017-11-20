@@ -45,8 +45,12 @@ function callAPI(urlAPI, postData){
     .then(function (response) {
         return Promise.resolve(response)
     })
-   
 }
+
+var io
+setTimeout(function() {
+    io = require('../io').getIo()
+}, 2000);
 
 router.post("/trigger/settlement", (req, res) => {
     var issuePointRate = 1;
@@ -95,8 +99,8 @@ router.post("/trigger/settlement", (req, res) => {
         reWrite("org");
 
         // response
+        io.emit('settlementWithShops')  
         res.json({status: 'ok', reason: ''})    
-        io.emit('settlementWithShops')    
     }).catch((err)=>{
         res.json({err})
     })

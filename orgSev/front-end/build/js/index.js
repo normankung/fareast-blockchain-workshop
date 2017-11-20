@@ -37,6 +37,12 @@ socket.on('settlementWithShops', function () {
     refreshData()
 })
 
+socket.on('Add_Issue_Point', function () {
+    console.log('Add_Issue_Point')
+    alert('Add_Issue_Point')
+    refreshData()
+})
+
 
 
 $(document)
