@@ -51,11 +51,11 @@ socket.on('receiveMoneyFromOrg', function () {
     refreshData()
 })
 
-// socket.on('Settlement_Report_Finish', function () {
-//     console.log('Settlement_Report_Finish')
-//     alert('收到別家組織的款項')
-//     refreshData()
-// })
+socket.on('Settlement_Report_Finish', function (data) {
+    console.log('Settlement_Report_Finish')
+    console.log(data)
+    alert('報表產生 : ' + data)
+})
 
 
 

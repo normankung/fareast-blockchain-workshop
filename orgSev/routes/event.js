@@ -100,15 +100,19 @@ router.post('/fabric-event', (req, res) => {
                 break;
             }
 
-        // case "Settle_Finish":
+        case "Settle_Finish":
+            var returnPoints_H = parseInt(payload["H"].returnPoints)
+            var returnPoints_F = parseInt(payload["F"].returnPoints)
+            io.emit('Settle_Finish')
+            res.json({"res":"ok"})
+            
+            break;
 
-        //     break;
-
-        // case "Settlement_Report_Finish":
-        //     var phrase = parseInt(payload.Phrase)
-        //     io.emit("Settlement_Report_Finish",{ hello: 'world' })
-        //     res.json({status:"ok"})
-        //     break;
+        case "Settlement_Report_Finish":
+            var phrase = parseInt(payload.Phrase)
+            io.emit("Settlement_Report_Finish", phrase )
+            res.json({status:"ok"})
+            break;
 
         case "Settle_Finish_H":
             if (config.orgSevConfig.orgId == "H"){
