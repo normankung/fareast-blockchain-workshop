@@ -45,8 +45,8 @@ router.post('/fabric-event', (req, res) => {
     console.log(req.body.event_name)
     payload =JSON.parse(payload)
     switch (req.body.event_name){
-        case "Deduct_Point":
-            var deductPoint = parseInt(payload.deductPoint)
+        case "User_Exchange":
+            var deductPoint = parseInt(payload.deductAmount)
             var orgName = payload.orgName
             var targetOrgID = payload.targetOrgID
             var userID = payload.userID
@@ -66,68 +66,29 @@ router.post('/fabric-event', (req, res) => {
             }
             
             io.emit('exchangeResult')
-            Add_Issue_Point("F",point)
             res.json({"res":"ok"})
             
             break;
 
 
         case "Settle_Finish":
-            var returnPoints_H = parseInt(payload["H"].returnPoints)
-            var returnPoints_F = parseInt(payload["F"].returnPoints)
-            io.emit('Settle_Finish')
+            for (var i in payload){
+                if (config.orgSevConfig.orgId == i){
+                    var returnPoints_H = parseInt(payload[i])
+                    orgData.issuePoint -= returnPoints_H
+                    reWrite("org")
+                    io.emit('Settle_Finish')
+                    
+                }
+            }
             res.json({"res":"ok"})
-
             break;
 
         case "Settlement_Report_Finish":
             var phase = parseInt(payload.phase)
-            console.log("Damn!!!!!!!!!!!!!!!!!!!!!!!!!")
             io.emit("Settlement_Report_Finish", phase )
             res.json({status:"ok"})
             break;
-
-        case "Settle_Finish_H":
-            if (config.orgSevConfig.orgId == "H"){
-                console.log("Receive Event : Settle_Finish_H")
-                console.log(payload)
-
-                var returnPoints = parseInt(payload.returnPoints)
-                orgData.issuePoint -= returnPoints
-                reWrite("org")
-                console.log("ReWrite Org +++++++++++++++=")
-
-                res.json({"res":"ok"})
-                // Call Front-end
-                io.emit('Settle_Finish')
-                break;              
-            }
-            else{
-                break;
-            }
-        case "Settle_Finish_F":
-            if (config.orgSevConfig.orgId == "F"){
-                console.log("Receive Event : Settle_Finish_F")
-                console.log(payload)
-
-                var returnPoints = parseInt(payload.returnPoints)
-                if (payload.orgID=="H") {
-                    
-                }
-                orgData.issuePoint -= returnPoints
-                reWrite("org")
-                console.log("ReWrite Org +++++++++++++++=")
-
-                res.json({"res":"ok"})
-                // Call Front-end
-                io.emit('Settle_Finish')
-                break;
-            }
-            else{
-                break;
-            }
-        
-        
             
 
         default:
@@ -136,31 +97,3 @@ router.post('/fabric-event', (req, res) => {
 
     
 })
-
-// 臨時加的
-
-function callAPI(urlAPI, postData){
-    const options = {
-        method: 'POST',
-        uri: urlAPI,
-        json: postData 
-    }
-
-    return rp(options)
-    .then(function (response) {
-        return Promise.resolve(response)
-    })
-}
-
-function Add_Issue_Point(orgName, IssueAmount){
-    var target = (config.orgSevConfig.orgId === "H") ? "F" : "H"
-    var url = config.issuerAddress[target] + "/Add_Issue_Point_tmp";
-    callAPI(url, {orgName:orgName, IssueAmount:IssueAmount})
-}
-
-router.post('/Add_Issue_Point_tmp', (req, res) => {
-    orgData.issuePoint += req.body.IssueAmount
-    console.log("Add_Issue_Point")
-    io.emit('Add_Issue_Point')
-    res.json({status:"ok"})
-})    

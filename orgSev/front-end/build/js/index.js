@@ -48,7 +48,7 @@ socket.on('Add_Issue_Point', function () {
 socket.on('receiveMoneyFromOrg', function () {
     console.log('receiveMoneyFromOrg')
     alert('收到別家組織的款項')
-    refreshData()
+    // refreshData()
 })
 
 socket.on('Settlement_Report_Finish', function (data) {
