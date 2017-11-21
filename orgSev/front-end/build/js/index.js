@@ -36,7 +36,7 @@ socket.on('shopReceivePoints', function () {
 socket.on('settlementWithShops', function () {
     console.log('settlementWithShops')
     alert('與店家清算成功')
-    refreshData()
+    refreshData_2()
 })
 
 socket.on('Add_Issue_Point', function () {
@@ -70,6 +70,14 @@ $(document)
 
 function refreshData() {    
     clean()
+    clean_2()
+    shopsData()
+    usersData()
+    orgData()
+}
+
+function refreshData_2() {    
+    clean()
     shopsData()
     usersData()
     orgData()
@@ -77,6 +85,10 @@ function refreshData() {
 
 function clean() {
     $('.clean').remove()
+}
+
+function clean_2() {
+    $('.clean_2').remove()
 }
 
 function orgName(){
@@ -128,7 +140,7 @@ $(document).on('click', '.settlementButton', function (event) {
     $.post('/trigger/settlement',{}, 
     (response) => {
         if (response.status == "ok"){
-            $('#settlementResult').append("<div class=\"clean\">清算成功</div>")
+            $('#settlementResult').append("<div class=\"clean_2\">清算成功</div>")
         }
         else{
             console.log(response)
