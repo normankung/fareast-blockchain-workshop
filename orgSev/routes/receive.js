@@ -74,6 +74,9 @@ router.post("/receive/issue", (req, res) => {
     reWrite("user");
     reWrite("org");
 
+    var url = orgData.EX_ADDRESS + "/user/deductPoint" // 感覺要改名 +++++++++++
+    callAPI(url, {result:userId})
+
     io.emit('shopIssuePoints')
 
     // response
@@ -131,6 +134,9 @@ router.post("/receive/receive", (req, res) => {
         reWrite("shop");
         reWrite("user");
 
+        var url = orgData.EX_ADDRESS + "/user/deductPoint"
+        callAPI(url, {result:userId})
+
         // response
         res.json({status: 'ok', api: 'receive/receive', reason: ''})
         io.emit('shopReceivePoints')
@@ -173,9 +179,10 @@ router.post("/receive/settlementWithOrg", (req, res)=>{
                         if (result.status == "ok") {
                             // 伺服器資料庫修正
                             var point = parseInt(me.Point)
-                            orgData.balance -= balance // Need to confirm
-                            // orgData.issuePoint += point
+                            orgData.balance -= balance 
+                            // orgData.issuePoint += point // Need to confirm ++++++++++++++++++++++++
                             reWrite("org");
+                            io.emit('receiveMoneyFromOrg')
                             res.json({status: "ok"}); 
                         }
                         else{

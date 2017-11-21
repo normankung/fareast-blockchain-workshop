@@ -104,6 +104,7 @@ router.post("/trigger/settlement", (req, res) => {
     }).catch((err)=>{
         res.json({err})
     })
+    
 })
 
 /* 傳送清算balance給另一台orgSev */
@@ -124,6 +125,7 @@ router.post("/trigger/settlementWithOrg", (req, res)=>{
         if (result.status == "ok") {
             orgData.balance += balance // Need to be confirm
             reWrite("org")
+            // io.emit('Settle_Finish')
             res.json({status: "ok"})
         }
         else{
