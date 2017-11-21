@@ -284,6 +284,8 @@ func (t *InvokeInterface) Invoke_Generate_Settlement_Report(stub shim.ChaincodeS
 	}
 	phaseNumber++
 	lRW.LocalPutState(config.PhaseNumberKeyName, []byte(strconv.Itoa(phaseNumber)))
+	eventType := "Settlement_Report_Finish"
+	setEvent(stub, eventType, []string{phaseNumberString})
 	return []byte(fmt.Sprintf("Generate settlement report for phase: %s success", phaseNumberString)), nil
 }
 func (t *InvokeInterface) Invoke_Settlement(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
@@ -432,6 +434,15 @@ func getOrgByOrgID(stub shim.ChaincodeStubInterface, orgID string) (*Org.Org, er
 
 func setEvent(stub shim.ChaincodeStubInterface, eventType string, args []string) error {
 	switch eventType {
+	case "Settlement_Report_Finish":
+		{
+			msgBytes, err := makeEventJSON(eventType, args)
+			err = stub.SetEvent(eventType, []byte(msgBytes))
+			if err != nil {
+				return err
+			}
+			return nil
+		}
 	case "Add_Issue_Point":
 		{
 			msgBytes, err := makeEventJSON(eventType, args)
@@ -466,10 +477,14 @@ func setEvent(stub shim.ChaincodeStubInterface, eventType string, args []string)
 			// org's report's point field.
 			settleFinishMsg1Bytes, err := makeEventJSON(eventType, []string{args[0], args[3]})
 			settleFinishMsg2Bytes, err := makeEventJSON(eventType, []string{args[2], args[1]})
+			fmt.Println("settleFinishFirstTopic")
+			fmt.Println(eventType + "_" + args[0])
 			err = stub.SetEvent(eventType+"_"+args[0], []byte(settleFinishMsg1Bytes))
 			if err != nil {
 				return err
 			}
+			fmt.Println("settleFinishSecondTopic")
+			fmt.Println(eventType + "_" + args[2])
 			err = stub.SetEvent(eventType+"_"+args[2], []byte(settleFinishMsg2Bytes))
 			if err != nil {
 				return err
@@ -482,17 +497,15 @@ func setEvent(stub shim.ChaincodeStubInterface, eventType string, args []string)
 func makeEventJSON(eventType string, args []string) ([]byte, error) {
 
 	switch eventType {
-	case "Add_Issue_Point":
+	case "Settlement_Report_Finish":
 		{
-			orgName := args[0]
-			IssueAmount := args[1]
+			phase := args[0]
 			jsonMap := map[string]string{
-				"orgName":     orgName,
-				"IssueAmount": IssueAmount,
+				"phase": phase,
 			}
 			return json.Marshal(jsonMap)
-
 		}
+
 	case "Redeem_Point":
 		{
 			orgName := args[0]
