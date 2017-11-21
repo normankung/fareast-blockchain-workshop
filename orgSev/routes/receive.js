@@ -74,7 +74,7 @@ router.post("/receive/issue", (req, res) => {
     reWrite("user");
     reWrite("org");
 
-    var url = orgData.EX_ADDRESS + "/user/deductPoint" // 感覺要改名 +++++++++++
+    var url = config.EX_ADDRESS + "/user/deductPoint" // 感覺要改名 +++++++++++
     callAPI(url, {result:userId})
 
     io.emit('shopIssuePoints')
@@ -134,7 +134,7 @@ router.post("/receive/receive", (req, res) => {
         reWrite("shop");
         reWrite("user");
 
-        var url = orgData.EX_ADDRESS + "/user/deductPoint"
+        var url = config.EX_ADDRESS + "/user/deductPoint"
         callAPI(url, {result:userId})
 
         // response

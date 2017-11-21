@@ -45,72 +45,45 @@ router.post('/fabric-event', (req, res) => {
     console.log(req.body.event_name)
     payload =JSON.parse(payload)
     switch (req.body.event_name){
-        case "Deduct_Point_H":
-            if (config.orgSevConfig.orgId == "H"){
-                var userId = payload.userID
-                var point = parseInt(payload.deductAmount)
-                // {"deductAmount":"1000","orgName":"H","userID":"C"}
+        case "Deduct_Point":
+            var deductPoint = parseInt(payload.deductPoint)
+            var orgName = payload.orgName
+            var targetOrgID = payload.targetOrgID
+            var userID = payload.userID
 
-                // update database
-                userData.user[userId].point -= point;
+            // 點數交換出去
+            if (config.orgSevConfig.orgId == orgName) {
+                userData.user[userID].point -= deductPoint;
                 reWrite("user")
-
-                console.log("Receive Event : Deduct_Point_H")
-                // Call Front-end
-                io.emit('exchangeResult')
-                Add_Issue_Point("F",point)
-                res.json({"res":"ok"})
-                break;
+                console.log("Receive Event : Deduct_Point : 點數交換出去")
             }
-            else{
-                break;
+
+            // 點數交換進來
+            if (config.orgSevConfig.orgId == targetOrgID){
+                orgData.issuePoint += deductPoint
+                reWrite("org")
+                console.log("Receive Event : Deduct_Point : 點數交換進來")
             }
             
-        case "Deduct_Point_F":
-            if (config.orgSevConfig.orgId == "F"){
-                var userId = payload.userID
-                var point = parseInt(payload.deductAmount)
-                // {"deductAmount":"1000","orgName":"H","userID":"C"}
+            io.emit('exchangeResult')
+            Add_Issue_Point("F",point)
+            res.json({"res":"ok"})
+            
+            break;
 
-                // update database
-                userData.user[userId].point -= point;
-                reWrite("user")
-
-                console.log("Receive Event : Deduct_Point_F")
-                res.json({"res":"ok"})
-
-                // Call Front-end
-                io.emit('exchangeResult')
-                Add_Issue_Point("H",point)
-                break;
-            }
-            else{
-                break;
-            }
-        
-        case "Add_Issue_Point":
-            if (payload.orgName == config.orgSevConfig.orgId) {
-                orgData.issuePoint += parseInt(payload.IssueAmount)
-                reWrite("org")
-                io.emit('Add_Issue_Point')
-                res.json({"res":"ok"})
-                break
-            }
-            else{
-                break;
-            }
 
         case "Settle_Finish":
             var returnPoints_H = parseInt(payload["H"].returnPoints)
             var returnPoints_F = parseInt(payload["F"].returnPoints)
             io.emit('Settle_Finish')
             res.json({"res":"ok"})
-            
+
             break;
 
         case "Settlement_Report_Finish":
-            var phrase = parseInt(payload.Phrase)
-            io.emit("Settlement_Report_Finish", phrase )
+            var phase = parseInt(payload.phase)
+            console.log("Damn!!!!!!!!!!!!!!!!!!!!!!!!!")
+            io.emit("Settlement_Report_Finish", phase )
             res.json({status:"ok"})
             break;
 
