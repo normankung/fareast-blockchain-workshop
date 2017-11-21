@@ -4,6 +4,7 @@ var defaultConfig = {
         "orgName": "HappyGo",
         "port": "5000"
     },
+    "EX_ADDRESS":"http://localhost:5003",
     "issuerAddress":{
         "H":"http://localhost:5000",
         "F":"http://localhost:5001"

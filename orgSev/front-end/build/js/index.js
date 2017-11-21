@@ -6,36 +6,57 @@ socket.on('exchangeResult', function () {
     alert('使用者交換點數成功')
     refreshData()
 })
-socket.on('issuePointEvent', function () {
-    refreshData()
-})
-socket.on('receivePointEvent', function () {
-    refreshData()
-})
+// socket.on('issuePointEvent', function () {
+//     alert('消費者集點成功')
+//     refreshData()
+// })
+// socket.on('receivePointEvent', function () {
+//     alert('消費者兌點成功')
+//     refreshData()
+// })
 
 socket.on('Settle_Finish', function () {
     console.log('Settle_Finish')
-    alert('Settle_Finish')
+    alert('清算成功')
     refreshData()
 })
 
 socket.on('shopIssuePoints', function () {
     console.log('shopIssuePoints')
-    alert('shopIssuePoints')
+    alert('消費者集點成功')
     refreshData()
 })
 
 socket.on('shopReceivePoints', function () {
     console.log('shopReceivePoints')
-    alert('shopReceivePoints')
+    alert('消費者兌點成功')
     refreshData()
 })
 
 socket.on('settlementWithShops', function () {
     console.log('settlementWithShops')
-    alert('settlementWithShops')
+    alert('與店家清算成功')
     refreshData()
 })
+
+socket.on('Add_Issue_Point', function () {
+    console.log('Add_Issue_Point')
+    alert('別家組織消費者兌換本組織積點成功')
+    refreshData()
+})
+
+socket.on('receiveMoneyFromOrg', function () {
+    console.log('receiveMoneyFromOrg')
+    alert('收到別家組織的款項')
+    refreshData()
+})
+
+// socket.on('Settlement_Report_Finish', function () {
+//     console.log('Settlement_Report_Finish')
+//     alert('收到別家組織的款項')
+//     refreshData()
+// })
+
 
 
 
@@ -47,7 +68,7 @@ $(document)
     orgData()
 });
 
-function refreshData() {
+function refreshData() {    
     clean()
     shopsData()
     usersData()
@@ -75,6 +96,7 @@ function shopsData(){
             tds += "<td class=\"clean\">" + response.shopData[id].holdPoint + "</td>"
             
             $('#shopData-table').append(`<tr class="">` + tds + "</tr>")
+            // console.log(id)
         }
     })
 }
@@ -106,7 +128,6 @@ $(document).on('click', '.settlementButton', function (event) {
     $.post('/trigger/settlement',{}, 
     (response) => {
         if (response.status == "ok"){
-            refreshData();
             $('#settlementResult').append("<div class=\"clean\">清算成功</div>")
         }
         else{

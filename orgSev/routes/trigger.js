@@ -45,8 +45,12 @@ function callAPI(urlAPI, postData){
     .then(function (response) {
         return Promise.resolve(response)
     })
-   
 }
+
+var io
+setTimeout(function() {
+    io = require('../io').getIo()
+}, 2000);
 
 router.post("/trigger/settlement", (req, res) => {
     var issuePointRate = 1;
@@ -95,11 +99,12 @@ router.post("/trigger/settlement", (req, res) => {
         reWrite("org");
 
         // response
+        io.emit('settlementWithShops')  
         res.json({status: 'ok', reason: ''})    
-        io.emit('settlementWithShops')    
     }).catch((err)=>{
         res.json({err})
     })
+    
 })
 
 /* 傳送清算balance給另一台orgSev */
@@ -120,6 +125,7 @@ router.post("/trigger/settlementWithOrg", (req, res)=>{
         if (result.status == "ok") {
             orgData.balance += balance // Need to be confirm
             reWrite("org")
+            // io.emit('Settle_Finish')
             res.json({status: "ok"})
         }
         else{
