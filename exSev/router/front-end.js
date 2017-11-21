@@ -101,6 +101,7 @@ router.post("/user/txHistory/redeem", (req, res) => {
     utils
         .invokeBlockchain(url, "Query_List_Tx_History_By_User", [userID])
         .then((result) => {
+            console.log(result)
             let txHistoryList = JSON.parse(result.sdkResult)
             let finalTxHistory = []
             for (let txHistory of txHistoryList) {

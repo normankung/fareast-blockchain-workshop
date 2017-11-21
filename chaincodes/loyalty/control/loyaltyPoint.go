@@ -133,14 +133,11 @@ func (t *InvokeInterface) Invoke_Exchange_Point(stub shim.ChaincodeStubInterface
 		targetOrg.Update(stub)
 
 	}
-	eventType := "Deduct_Point"
-
-	err = setEvent(stub, eventType, []string{sourceOrgID, userID, pointAmountString})
+	eventType := "User_Exchange"
+	err = setEvent(stub, eventType, []string{sourceOrgID, userID, targetOrgID, pointAmountString})
 	if err != nil {
 		return nil, err
 	}
-	eventType = "Add_Issue_Point"
-	err = setEvent(stub, eventType, []string{targetOrgID, pointAmountString})
 
 	if err != nil {
 		return nil, err
@@ -434,7 +431,7 @@ func getOrgByOrgID(stub shim.ChaincodeStubInterface, orgID string) (*Org.Org, er
 
 func setEvent(stub shim.ChaincodeStubInterface, eventType string, args []string) error {
 	switch eventType {
-	case "Settlement_Report_Finish":
+	case "User_Exchange":
 		{
 			msgBytes, err := makeEventJSON(eventType, args)
 			err = stub.SetEvent(eventType, []byte(msgBytes))
@@ -443,7 +440,7 @@ func setEvent(stub shim.ChaincodeStubInterface, eventType string, args []string)
 			}
 			return nil
 		}
-	case "Add_Issue_Point":
+	case "Settlement_Report_Finish":
 		{
 			msgBytes, err := makeEventJSON(eventType, args)
 			err = stub.SetEvent(eventType, []byte(msgBytes))
@@ -461,31 +458,15 @@ func setEvent(stub shim.ChaincodeStubInterface, eventType string, args []string)
 			}
 			return nil
 		}
-	case "Deduct_Point":
-		{
-			deductMsgBytes, err := makeEventJSON(eventType, args)
-			err = stub.SetEvent(eventType+"_"+args[0], []byte(deductMsgBytes))
-			if err != nil {
-				return err
-			}
-			return nil
-		}
 	case "Settle_Finish":
 		{
 			// note : cause point field of point and money struct records you hold other's point
 			// so when you need to settle the report, you should reveice the point record in oppsite
 			// org's report's point field.
-			settleFinishMsg1Bytes, err := makeEventJSON(eventType, []string{args[0], args[3]})
-			settleFinishMsg2Bytes, err := makeEventJSON(eventType, []string{args[2], args[1]})
-			fmt.Println("settleFinishFirstTopic")
-			fmt.Println(eventType + "_" + args[0])
-			err = stub.SetEvent(eventType+"_"+args[0], []byte(settleFinishMsg1Bytes))
-			if err != nil {
-				return err
-			}
-			fmt.Println("settleFinishSecondTopic")
-			fmt.Println(eventType + "_" + args[2])
-			err = stub.SetEvent(eventType+"_"+args[2], []byte(settleFinishMsg2Bytes))
+			fmt.Println("set Settle_Finish event")
+
+			msgBytes, err := makeEventJSON(eventType, args)
+			err = stub.SetEvent(eventType, []byte(msgBytes))
 			if err != nil {
 				return err
 			}
@@ -497,6 +478,20 @@ func setEvent(stub shim.ChaincodeStubInterface, eventType string, args []string)
 func makeEventJSON(eventType string, args []string) ([]byte, error) {
 
 	switch eventType {
+	case "User_Exchange":
+		{
+			orgName := args[0]
+			userID := args[1]
+			targetOrgID := args[2]
+			deductAmount := args[3]
+			jsonMap := map[string]string{
+				"orgName":      orgName,
+				"userID":       userID,
+				"targetOrgID":  targetOrgID,
+				"deductAmount": deductAmount,
+			}
+			return json.Marshal(jsonMap)
+		}
 	case "Settlement_Report_Finish":
 		{
 			phase := args[0]
@@ -505,7 +500,14 @@ func makeEventJSON(eventType string, args []string) ([]byte, error) {
 			}
 			return json.Marshal(jsonMap)
 		}
-
+	case "Add_Issue_Point":
+		{
+			pointAmount := args[0]
+			jsonMap := map[string]string{
+				"pointAmount": pointAmount,
+			}
+			return json.Marshal(jsonMap)
+		}
 	case "Redeem_Point":
 		{
 			orgName := args[0]
@@ -519,26 +521,15 @@ func makeEventJSON(eventType string, args []string) ([]byte, error) {
 			return json.Marshal(jsonMap)
 
 		}
-	case "Deduct_Point":
-		{
-			orgName := args[0]
-			userID := args[1]
-			deductAmount := args[2]
-			jsonMap := map[string]string{
-				"orgName":      orgName,
-				"userID":       userID,
-				"deductAmount": deductAmount,
-			}
-			return json.Marshal(jsonMap)
-
-		}
 	case "Settle_Finish":
 		{
-			orgID := args[0]
-			returnPoints := args[1]
+			org1ID := args[0]
+			org1ReturnPoint := args[3]
+			org2ID := args[2]
+			org2ReturnPoint := args[1]
 			jsonMap := map[string]string{
-				"orgID":        orgID,
-				"returnPoints": returnPoints,
+				org1ID: org1ReturnPoint,
+				org2ID: org2ReturnPoint,
 			}
 			return json.Marshal(jsonMap)
 
