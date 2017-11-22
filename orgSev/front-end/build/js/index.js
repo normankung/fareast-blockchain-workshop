@@ -4,7 +4,6 @@ socket
 })
 socket.on('exchangeResult', function () {
     alertBox('使用者交換點數成功')
-
     refreshData()
 })
 // socket.on('issuePointEvent', function () {
