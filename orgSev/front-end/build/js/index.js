@@ -3,7 +3,8 @@ socket
     console.log('connect')
 })
 socket.on('exchangeResult', function () {
-    alert('使用者交換點數成功')
+    alertBox('使用者交換點數成功')
+
     refreshData()
 })
 // socket.on('issuePointEvent', function () {
@@ -17,44 +18,46 @@ socket.on('exchangeResult', function () {
 
 socket.on('Settle_Finish', function () {
     console.log('Settle_Finish')
-    alert('清算成功')
+    // alert('清算成功')
+    alertBox('清算成功')
     refreshData()
+    queryReportsRefresh()
 })
 
 socket.on('shopIssuePoints', function () {
     console.log('shopIssuePoints')
-    alert('消費者集點成功')
+    alertBox('消費者集點成功')
     refreshData()
 })
 
 socket.on('shopReceivePoints', function () {
     console.log('shopReceivePoints')
-    alert('消費者兌點成功')
+    alertBox('消費者兌點成功')
     refreshData()
 })
 
 socket.on('settlementWithShops', function () {
     console.log('settlementWithShops')
-    alert('與店家清算成功')
-    refreshData_2()
+    alertBox('與店家清算成功')
+    refreshData()
 })
 
 socket.on('Add_Issue_Point', function () {
     console.log('Add_Issue_Point')
-    alert('別家組織消費者兌換本組織積點成功')
+    alertBox('別家組織消費者兌換本組織積點成功')
     refreshData()
 })
 
 socket.on('receiveMoneyFromOrg', function () {
     console.log('receiveMoneyFromOrg')
-    alert('收到別家組織的款項')
+    alertBox('收到別家組織的款項')
     // refreshData()
 })
 
 socket.on('Settlement_Report_Finish', function (data) {
     console.log('Settlement_Report_Finish')
     console.log(data)
-    alert('報表產生 : ' + data)
+    alertBox('報表產生 : ' + data)
 })
 
 
@@ -66,17 +69,11 @@ $(document)
     shopsData()
     usersData()
     orgData()
+    queryReports()
+    // alertBox()
 });
 
 function refreshData() {    
-    clean()
-    clean_2()
-    shopsData()
-    usersData()
-    orgData()
-}
-
-function refreshData_2() {    
     clean()
     shopsData()
     usersData()
@@ -87,14 +84,17 @@ function clean() {
     $('.clean').remove()
 }
 
-function clean_2() {
-    $('.clean_2').remove()
+function queryReportsRefresh() {
+    $('.reportTable').remove()
+    queryReports()
 }
 
 function orgName(){
     $.post('/', {}, 
     (response) => {
         $(".orgName").text(response.orgName + " 公司")
+        var pic = "images/" + response.orgName + ".png"
+        $(".orgPic").attr("src", pic)
     })
 }
 
@@ -128,19 +128,17 @@ function usersData(){
 function orgData(){
     $.post('/orgData', {}, 
     (response) => {
-        var tds = ""
-        tds += "<td class=\"clean\">" + response.orgId + "</td>"
-        tds += "<td class=\"clean\">" + response.issuePoint + "</td>"
-        tds += "<td class=\"clean\">" + response.balance + "</td>"
-        $('#orgData-table').append("<tr class=''>" + tds + "</tr>")
+        $('.orgIssuePoint').text(response.issuePoint);
+        $('.orgBalance').text(response.balance);
     })
 }
 
+// settlement with shop
 $(document).on('click', '.settlementButton', function (event) {
     $.post('/trigger/settlement',{}, 
     (response) => {
         if (response.status == "ok"){
-            $('#settlementResult').append("<div class=\"clean_2\">清算成功</div>")
+            $('#settlementResult').append("<div class=\"clean\">清算成功</div>")
         }
         else{
             console.log(response)
@@ -149,52 +147,13 @@ $(document).on('click', '.settlementButton', function (event) {
     })
 })
 
-function cleanQueryTable() {
-    $('.cleanQueryTable').remove()
-}
+function settlementWithOrgButton(Phase, balance) {
+    var Phase = Phase
 
-function queryReport(seqNum){
-    $.post('/query/report',{seqNum: seqNum}, 
-    (response) => {
-        if (response.status == "ok"){
-            var btn = ""
-            if (response.jsonFile.HaveSettle != "true"){
-                seqNum = response.jsonFile.seqNum
-                btn += "<button class='btn btn-sm btn-primary' type='button'"
-                btn += " onclick=\"settlementWithOrgButton('" + seqNum + "'," + response.jsonFile.me.Money + ")\">結清</button>"
-            }
-            else{
-                btn = "已結清"
-            }
+    let buttonID = Phase + "settlementWithOrg" 
+    $("#"+buttonID).replaceWith("<td id=\""+ buttonID +"\">已傳送</td>")
 
-            var tds = ""
-            tds += "<td>" + response.jsonFile.seqNum + "</td>"
-            tds += "<td>" + response.jsonFile.me.Point + "</td>"
-            tds += "<td>" + response.jsonFile.me.Money + "</td>"
-            tds += "<td id=\"" + seqNum + "settlementWithOrg\">" + btn + "</td>"
-            $('#report-table').append("<tr class=\"cleanQueryTable\">" + tds + "</tr>")
-        }
-        else{
-            // $('#queryReportResult').append("查詢失敗")
-            cleanQueryTable()
-            $('#queryReportResult').append("查詢失敗")
-        }
-    })
-}
-
-$(document).on('submit', '#queryReport', function (event) {
-    event.preventDefault()
-    var i = event.target[0].value;
-    queryReport(i)
-})    
-
-function settlementWithOrgButton(seqNum, balance) {
-    var seqNum = seqNum.toString()
-
-    let removeTD = seqNum + "settlementWithOrg" 
-    $("#"+removeTD).replaceWith("<td>已傳送</td>")
-
-    $.post('/trigger/settlementWithOrg',{seqNum:seqNum, balance:balance}, 
+    $.post('/trigger/settlementWithOrg',{Phase:Phase, balance:balance}, 
     (response) => {
         if (response.status == "ok"){
             // Do Something
@@ -203,4 +162,47 @@ function settlementWithOrgButton(seqNum, balance) {
             $("#"+removeTD).append("錯誤！請聯絡管理員！")
         }
     })
+}
+
+function queryReports(seqNum){
+    $.post('/query/reports',{}, 
+    (response) => {
+        // console.log(response)
+        if (response.status == "ok"){
+            for (i in response.data.result){
+                
+                var btn = ""
+                var Money = response.data.result[i].Me.Money
+                var Phase = response.data.result[i].Phase
+                if (response.data.result[i].HaveSettle != "true" && Money < 0){
+                    btn += "<button class='btn btn-sm btn-primary' type='button'"
+                    btn += " onclick=\"settlementWithOrgButton(" + Phase + "," + Money + ")\"><i class=\"fa fa-money\"></i> 結清</button>"
+                    
+                }
+                else if (response.data.result[i].HaveSettle != "true" && Money > 0){
+                    btn = "等待對方付款"
+                }
+                else{
+                    btn = "已結清"
+                }
+
+                var tds = ""
+                tds += "<td>" + response.data.result[i].Phase + "</td>"
+                tds += "<td>" + response.data.result[i].Me.Point + "</td>"
+                tds += "<td>" + response.data.result[i].Me.Money + "</td>"
+                tds += "<td>" + response.data.result[i].Target.Point + "</td>"
+                tds += "<td>" + response.data.result[i].Target.Money + "</td>"
+                tds += "<td id=\"" + Phase + "settlementWithOrg\">" + btn + "</td>"
+                $('#report-table').append("<tr class=\"reportTable\">" + tds + "</tr>")
+            }
+        }
+    })
+}
+
+// Alert Box
+function alertBox(message){
+    $("#messageAlertBox").html(message)
+    $(".alert").fadeIn(2000);
+    $(".alert").delay(3000);
+    $(".alert").fadeOut(2000);
 }

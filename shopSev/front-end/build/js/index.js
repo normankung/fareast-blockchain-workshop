@@ -3,7 +3,7 @@ socket
     console.log('connect')
 })
 socket.on('settlement', function () {
-    alert('清算成功！')
+    alertBox('清算成功！')
     refreshData()
 })
 
@@ -29,7 +29,9 @@ function clean() {
 function shopId(){
     $.post('/', {}, 
     (response) => {
+        let orgName = (response.orgId == "H") ? "HappyGo" : "Friday"
         $(".shopId").text(response.shopId + " 特約商")
+        $(".orgNameSev").text(orgName + " 特約商伺服器")
     })
 }
 
@@ -68,9 +70,9 @@ function items(){
 function shopData(){
     $.post('/shopData', {}, 
     (response) => {
-        $("#shopIssuePoint").text(response.issuePoint + " 點")
-        $("#shopHoldPoint").text(response.holdPoint + " 點")
-        $("#shopBalance").text(response.balance + " 金額")
+        $('.shopIssuePoint').text(response.issuePoint);
+        $('.shopHoldPoint').text(response.holdPoint);
+        $('.shopBalance').text(response.balance);
     })
 }
 
@@ -82,11 +84,11 @@ $(document).on('submit', '#issuePointForm', function (event) {
     $.post('/trigger/issue', {userId: userId, issuePoint: issuePoint}, 
     (response) => {
         if (response.status == "ok"){
-            alert("成功發出" + event.target[0].value + "點")
+            alertBox("成功發出" + event.target[0].value + "點")
             $("#shopIssuePoint").text(response.issuePoint + " 點")
         }
         else{
-            alert("錯誤訊息！")
+            alertBox("錯誤訊息！")
         }
     })
 })  
@@ -100,11 +102,19 @@ $(document).on('submit', '#holdPointForm', function (event) {
     $.post('/trigger/receive', {userId: userId, itemId: itemId}, 
     (response) => {
         if (response.status == "ok"){
-            alert("成功收到點數")
+            alertBox("成功收到點數")
             $("#shopHoldPoint").text(response.holdPoint + " 點")
         }
         else{
-            alert("錯誤訊息！")
+            alertBox("錯誤訊息！")
         }
     })
 })  
+
+// Alert Box
+function alertBox(message){
+    $("#messageAlertBox").html(message)
+    $(".alert").fadeIn(2000);
+    $(".alert").delay(3000);
+    $(".alert").fadeOut(2000);
+}

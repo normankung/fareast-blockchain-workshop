@@ -27,9 +27,21 @@
 
     <!-- Custom Theme Style -->
     <link href="../build/css/custom.min.css" rel="stylesheet">
+
+    <style type="text/css">
+      .tile_count .tile_stats_count {
+        border-bottom: 0px
+      }
+      .nav_menu {
+        background: #f25f5c;
+      }
+      .changeColor {
+        color: white;
+      }
+    </style>
   </head>
 
-  <body class="nav-md">
+  <body class="nav-sm">
     <div class="container body">
       <div class="main_container">
         <!-- Left bar -->
@@ -60,32 +72,12 @@
               <div class="menu_section">
                 <h3>General</h3>
                 <ul class="nav side-menu">
-                  <li><a><i class="fa fa-home"></i> 首頁 <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="indexDev.html"> 資料呈現 </a></li>
-                    </ul>
+                  <li><a href="indexDev.html"><i class="fa fa-home"></i> 首頁 </a>
                   </li>
                 </ul>
               </div>
             </div>
             <!-- /sidebar menu -->
-
-            <!-- /menu footer buttons -->
-            <div class="sidebar-footer hidden-small">
-              <a data-toggle="tooltip" data-placement="top" title="Settings">
-                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-              </a>
-              <a data-toggle="tooltip" data-placement="top" title="FullScreen">
-                <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
-              </a>
-              <a data-toggle="tooltip" data-placement="top" title="Lock">
-                <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
-              </a>
-              <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
-                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-              </a>
-            </div>
-            <!-- /menu footer buttons -->
           </div>
         </div>
         <!-- /Left bar -->
@@ -95,15 +87,14 @@
           <div class="nav_menu">
             <nav>
               <div class="nav toggle">
-                <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                <a id="menu_toggle" class="changeColor"><i class="fa fa-bars"></i></a>
               </div>
 
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile" aria-expanded="false">
                     <div style="display:flex">
-                      <img src="images/img.jpg" alt=""><div class="shopId"></div>
-                      <span class=" fa fa-angle-down"></span>
+                      <img src="images/img.jpg" alt=""><div class="shopId changeColor"></div>
                     </div>  
                   </a>
                   <!-- 覺得可以切換sev應該不錯 -->
@@ -116,41 +107,39 @@
 
         <!-- page content -->
         <div class="right_col" role="main">
-          <!-- Function Trigger -->
-          <!-- /Settlement with shop -->
-          <!-- /Function Trigger -->
-          
-          <!-- Database -->
-          <div class="row">
-            <!-- ShopData -->
-            <div class="col-md-12 col-sm-12 col-xs-12">
-              <div class="x_panel">
-                <div class="x_title">
-                  <h2>特約商 資料</h2>
-                  <div class="clearfix"></div>
-                </div>
-                <div class="x_content">
-                  <div class="col-md-3 col-sm-3 col-xs-4 tile">
-                    <span>發出點數</span>
-                    <h2 id="shopIssuePoint"></h2>
-                  </div>
-                  <div class="col-md-3 col-sm-3 col-xs-4 tile">
-                    <span>持有點數</span>
-                    <h2 id="shopHoldPoint"></h2>
-                  </div>
-                  <div class="col-md-3 col-sm-3 col-xs-4 tile">
-                    <span>Balance</span>
-                    <h2 id="shopBalance"></h2>
-                  </div>
-                </div>
-              </div>     
-            </div>
-          </div>          
-          <!-- /Database -->
 
+          <!-- ShopData -->
+          <div class="row x_title">
+            <div class="col-md-6">
+              <h3 class="orgNameSev"></h3>
+            </div>
+            <div class="col-md-6">
+                <h3 class="pull-right shopId"></h3>
+              </div>
+          </div>
+
+          <div class="row tile_count">
+            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+              <span class="count_top" style="font-size:16px"><i class="fa fa-star"></i> 發出點數</span>
+              <div class="count shopIssuePoint" style="font-size:40px"></div>
+              <span class="count_bottom">Issue Point</span>              
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+              <span class="count_top" style="font-size:16px"><i class="fa fa-star-o"></i> 持有點數</span>
+              <div class="count shopHoldPoint" style="font-size:40px"></div>
+              <span class="count_bottom">Hold Point</span>              
+            </div> 
+            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+              <span class="count_top" style="font-size:16px"><i class="fa fa-money"></i> 剩餘金額</span>
+              <div class="count shopBalance" style="font-size:40px"></div>
+              <span class="count_bottom">Balance</span>              
+            </div> 
+          </div>
+          <!-- /ShopData -->
+          <div class="ln_solid"></div>
           <!-- Issue Point -->
           <div class="row">
-            <div class="col-md-5 col-sm-5 col-xs-12">
+            <div class="col-md-6 col-sm-6 col-xs-12">
               <div class="x_panel">
                 <div class="x_title">
                   <h2>發出點數給消費者</h2>
@@ -176,7 +165,7 @@
                     <div class="ln_solid"></div>
                     <div class="form-group">
                       <div class="col-md-9 col-md-offset-3">
-                        <button id="send" type="submit" class="btn btn-success btn-block">確認</button>
+                        <button id="send" type="submit" class="btn btn-primary btn-block">確認</button>
                       </div>
                     </div>
                   </form>
@@ -185,7 +174,7 @@
             </div>
             <!-- /Issue Point -->
             <!-- Hold Point -->
-            <div class="col-md-5 col-sm-5 col-xs-12">
+            <div class="col-md-6 col-sm-6 col-xs-12">
               <div class="x_panel">
                 <div class="x_title">
                   <h2>消費者使用點數消費</h2>
@@ -217,7 +206,7 @@
                     <div class="ln_solid"></div>
                     <div class="form-group">
                       <div class="col-md-9 col-md-offset-3">
-                        <button id="send" type="submit" class="btn btn-success btn-block">確認</button>
+                        <button id="send" type="submit" class="btn btn-primary btn-block">確認</button>
                       </div>
                     </div>
                   </form>
@@ -235,7 +224,7 @@
         <!-- footer content -->
         <footer>
           <div class="pull-right">
-            Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
+            特約商伺服器
           </div>
           <div class="clearfix"></div>
         </footer>

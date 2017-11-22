@@ -109,11 +109,11 @@ router.post("/trigger/settlement", (req, res) => {
 
 /* 傳送清算balance給另一台orgSev */
 router.post("/trigger/settlementWithOrg", (req, res)=>{
-    var seqNum = req.body.seqNum
+    var Phase = req.body.Phase
     var balance = parseInt(req.body.balance)    
 
     // Trigger Blockchain
-    var sendJson ={seqNum: seqNum, balance: balance}
+    var sendJson ={Phase: Phase, balance: balance}
     
     // console.log(sendJson);
     var target = (config.orgSevConfig.orgId === "H") ? "F" : "H"
