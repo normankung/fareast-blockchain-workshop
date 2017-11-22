@@ -27,9 +27,21 @@
 
     <!-- Custom Theme Style -->
     <link href="../build/css/custom.min.css" rel="stylesheet">
+
+    <style type="text/css">
+      .tile_count .tile_stats_count {
+        border-bottom: 0px
+      }
+      .nav_menu {
+        background: #00a896;
+      }
+      .orgName {
+        color: white;
+      }
+    </style>
   </head>
 
-  <body class="nav-md">
+  <body class="nav-sm">
     <div class="container body">
       <div class="main_container">
         <!-- Left bar -->
@@ -60,10 +72,7 @@
               <div class="menu_section">
                 <h3>General</h3>
                 <ul class="nav side-menu">
-                  <li><a><i class="fa fa-home"></i> 首頁 <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="indexDev.html"> 資料呈現 </a></li>
-                    </ul>
+                  <li><a href="indexDev.html"><i class="fa fa-home"></i> 首頁 </a>
                   </li>
                 </ul>
               </div>
@@ -103,7 +112,6 @@
                   <a href="javascript:;" class="user-profile" aria-expanded="false">
                     <div style="display:flex">
                       <img src="images/img.jpg" alt=""><div class="orgName"></div>
-                      <span class=" fa fa-angle-down"></span>
                     </div>  
                   </a>
                   <!-- 覺得可以切換sev應該不錯 -->
@@ -116,14 +124,39 @@
 
         <!-- page content -->
         <div class="right_col" role="main">
-          <!-- Function Trigger -->
-          <!-- /Settlement with shop -->
-          <!-- /Function Trigger -->
+          
+          <!-- OrgData -->
+          <div class="row x_title">
+            <div class="col-md-6">
+              <h3>組織伺服器</h3>
+            </div>
+            <div class="col-md-6 pull-right">
+                <!-- <h3 class="pull-right orgName"></h3> -->
+                <img class="orgPic pull-right" style="width:168px" src="">
+              </div>
+          </div>
+
+          <div class="row tile_count">
+            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+              <span class="count_top" style="font-size:16px"><i class="fa fa-star"></i> 發出點數</span>
+              <div class="count orgIssuePoint" style="font-size:40px"></div>
+              <span class="count_bottom">Issue Point</span>
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+              <span class="count_top" style="font-size:16px"><i class="fa fa-money"></i> 剩餘金額</span>
+              <div class="count orgBalance" style="font-size:40px"></div>
+              <span class="count_bottom">Balance</span>
+            </div> 
+          </div>
+          <!-- /OrgData -->
+
+
+          <div class="ln_solid"></div>
           
           <!-- Database -->
           <div class="row">
             <!-- ShopData -->
-            <div class="col-md-6 col-sm-12 col-xs-12">
+            <div class="col-md-8 col-sm-8 col-xs-12">
               <div class="x_panel">
                 <div class="x_title">
                   <h2>特約商 資料</h2>
@@ -134,7 +167,7 @@
                   <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                  <table class="table table-striped">
+                  <table class="table table-striped jambo_table">
                     <thead>
                       <tr>
                         <th>#ID</th>
@@ -148,18 +181,19 @@
                   <!-- Settlement With Shop -->
                   <div class="ln_solid"></div>
                   <div class="row">
-                    <div class="col-md-3 col-sm-3 col-xs-12">
-                      <button class="btn btn-sm btn-primary settlementButton" type="button"><i class="fa fa-money"></i> Settlement</button>
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                      <button class="btn btn-sm btn-primary settlementButton" type="button"><i class="fa fa-money"></i> 與特約商清算</button>
                     </div>
-                    <div class="col-md-9 col-sm-9 col-xs-12 mail_view">
+                    <div class="col-md-8 col-sm-8 col-xs-12 mail_view" style="padding-top:5px">
                         <div id="settlementResult"></div>
                     </div> 
                   </div>
                 </div>
               </div>     
             </div>
+            <!-- ShopData -->
             <!-- UserData -->
-            <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="col-md-4 col-sm-4 col-xs-12">
               <div class="x_panel">
                 <div class="x_title">
                   <h2>會員 資料</h2>
@@ -170,7 +204,7 @@
                   <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                  <table class="table table-striped">
+                  <table class="table table-striped jambo_table">
                     <thead>
                       <tr>
                         <th>#ID</th>
@@ -182,95 +216,57 @@
                   </table>
                 </div>
               </div>     
-            </div>
-            <!-- OrgData -->
-            <div class="col-md-3 col-sm-6 col-xs-12">
-                <div class="x_panel">
-                  <div class="x_title">
-                    <h2>組織 資料</h2>
-                    <ul class="nav navbar-right panel_toolbox">
-                      <li style="float:right"><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                      </li>
-                    </ul>
-                    <div class="clearfix"></div>
-                  </div>
-                  <div class="x_content">
-                    <table class="table table-striped">
-                      <thead>
-                        <tr>
-                          <th>#ID</th>
-                          <th>發出點數</th>
-                          <th>剩餘金額</th>
-                        </tr>
-                      </thead>
-                      <tbody id="orgData-table">
-                      </tbody>
-                    </table>
-                  </div>
-                </div>     
-              </div>
-          </div>          
+            </div>  
+            <!-- /User Data -->
+          </div>
           <!-- /Database -->
 
           <!-- Settlement with Org -->
           <!-- List > QueryNewest > Settle(Trigger Org) > Receive Blockchain Request -->
           <div class="row">
-              <div class="col-md-12 col-sm-12 col-xs-12">
-                <div class="x_panel">
-                  <div class="x_title">
-                    <h2>Settlement With Org</h2>
-                    <ul class="nav navbar-right panel_toolbox">
-                      <li style="float:right">
-                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                      </li>
-                    </ul>
-                    <div class="clearfix"></div>
-                  </div>
-                  <div class="x_content">
-                    <div class="row">
-                        <div class="col-md-3 col-sm-3 col-xs-12">
-                          <form class="form-horizontal form-label-left input_mask" id="queryReport">
-                              <div class="form-group">
-                                <div class="col-md-12 col-sm-12 col-xs-12">
-                                    <input required type="text" class="form-control" placeholder="輸入報表編號">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                              <div class="col-md-12 col-sm-12 col-xs-12"></div>
-                              <button class="btn btn-primary" type="submit"><i class="fa fa-money"></i> Search</button>
-                            </div>
-                            <!-- <button class="btn btn-sm btn-primary queryReportButton" type="button"><i class="fa fa-money"></i> 查詢報表</button> -->
-                          </form>
-                        </div>
-                        <div class="col-md-9 col-sm-9 col-xs-12 mail_view">
-                            <table class="table table-striped">
-                              <thead>
-                                <tr>
-                                  <th>#SeqNum</th>
-                                  <th>持有對方點數</th>
-                                  <th>需結清金額</th>
-                                  <th>狀態</th>
-                                </tr>
-                              </thead>
-                              <tbody id="report-table">
-                              </tbody>
-                            </table>
-                          <div id="queryReportResult" style="text-align: center"></div>
-                        </div>
-                    </div>
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2>組織兌換點數清算</h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li style="float:right">
+                      <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <div class="row">
+                      <div class="col-md-12 col-sm-12 col-xs-12">
+                          <table class="table table-striped jambo_table">
+                            <thead>
+                              <tr>
+                                <th>#SeqNum</th>
+                                <th>持有對方點數</th>
+                                <th>需結清金額</th>
+                                <th>對方持有點數</th>
+                                <th>需結清金額</th>
+                                <th>狀態</th>
+                              </tr>
+                            </thead>
+                            <tbody id="report-table">
+                            </tbody>
+                          </table>
+                        <div id="queryReportResult" style="text-align: center"></div>
+                      </div>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
           <!-- /Settlement with Org -->
-
         </div>
         <!-- /page content -->
 
         <!-- footer content -->
         <footer>
           <div class="pull-right">
-            Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
+            組織伺服器
           </div>
           <div class="clearfix"></div>
         </footer>

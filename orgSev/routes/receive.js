@@ -145,18 +145,18 @@ router.post("/receive/receive", (req, res) => {
 
 router.post("/receive/settlementWithOrg", (req, res)=>{
     var balance = req.body.balance
-    var seqNum = req.body.seqNum
+    var Phase = req.body.Phase
 
     // 先到Blockchain查詢
-    let reportID = parseInt(seqNum)
     let url1 = config.gatewayAddress + constants.router.gateway.chaincodeQuery
     utils
-        .invokeBlockchain(url1, "Query_Settlement_Report", [reportID.toString()])
+        .invokeBlockchain(url1, "Query_Settlement_Report", [Phase])
         .then((result) => {
             let blockchainResult = JSON.parse(result.sdkResult)
             let jsonFile = {}
             let me = blockchainResult[0].SettlementReports[config.orgSevConfig.orgId]
             let HaveSettle = blockchainResult[0].HaveSettle
+            let seqNum = blockchainResult[0].SeqNum
             // 如果有值， balance一樣， 還沒settle
             if (blockchainResult[0] && me.Money == (balance*-1) && HaveSettle == "false") {            
                 console.log("Confirm report")

@@ -29,7 +29,9 @@ function clean() {
 function shopId(){
     $.post('/', {}, 
     (response) => {
+        let orgName = (response.orgId == "H") ? "HappyGo" : "Friday"
         $(".shopId").text(response.shopId + " 特約商")
+        $(".orgNameSev").text(orgName + " 特約商伺服器")
     })
 }
 
@@ -68,9 +70,9 @@ function items(){
 function shopData(){
     $.post('/shopData', {}, 
     (response) => {
-        $("#shopIssuePoint").text(response.issuePoint + " 點")
-        $("#shopHoldPoint").text(response.holdPoint + " 點")
-        $("#shopBalance").text(response.balance + " 金額")
+        $('.shopIssuePoint').text(response.issuePoint);
+        $('.shopHoldPoint').text(response.holdPoint);
+        $('.shopBalance').text(response.balance);
     })
 }
 

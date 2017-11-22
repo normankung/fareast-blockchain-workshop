@@ -16,7 +16,8 @@ router.use(myParser.urlencoded({extended : true}));
 // ShopId Data
 router.post("/", (req, res) => {
     var resJson = {    
-        shopId : config.shopSevConfig.shopId
+        shopId : config.shopSevConfig.shopId,
+        orgId : config.shopSevConfig.orgId
     }
     res.json(resJson)
 })

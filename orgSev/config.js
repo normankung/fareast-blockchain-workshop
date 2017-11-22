@@ -5,11 +5,11 @@ var defaultConfig = {
         "port": "5000"
     },
     "EX_ADDRESS":"http://localhost:5003",
+    "gatewayAddress":"http://localhost:4001",
     "issuerAddress":{
         "H":"http://localhost:5000",
         "F":"http://localhost:5001"
     },
-    "gatewayAddress":"http://localhost:4001",
     "fabric":{
         "channelName":"mychannel",
         "ccName":"r0",
