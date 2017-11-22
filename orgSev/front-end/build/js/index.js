@@ -4,6 +4,7 @@ socket
 })
 socket.on('exchangeResult', function () {
     alert('使用者交換點數成功')
+
     refreshData()
 })
 // socket.on('issuePointEvent', function () {
@@ -17,45 +18,46 @@ socket.on('exchangeResult', function () {
 
 socket.on('Settle_Finish', function () {
     console.log('Settle_Finish')
-    alert('清算成功')
+    // alert('清算成功')
+    alertBox('清算成功')
     refreshData()
     queryReportsRefresh()
 })
 
 socket.on('shopIssuePoints', function () {
     console.log('shopIssuePoints')
-    alert('消費者集點成功')
+    alertBox('消費者集點成功')
     refreshData()
 })
 
 socket.on('shopReceivePoints', function () {
     console.log('shopReceivePoints')
-    alert('消費者兌點成功')
+    alertBox('消費者兌點成功')
     refreshData()
 })
 
 socket.on('settlementWithShops', function () {
     console.log('settlementWithShops')
-    alert('與店家清算成功')
-    refreshData_2()
+    alertBox('與店家清算成功')
+    refreshData()
 })
 
 socket.on('Add_Issue_Point', function () {
     console.log('Add_Issue_Point')
-    alert('別家組織消費者兌換本組織積點成功')
+    alertBox('別家組織消費者兌換本組織積點成功')
     refreshData()
 })
 
 socket.on('receiveMoneyFromOrg', function () {
     console.log('receiveMoneyFromOrg')
-    alert('收到別家組織的款項')
+    alertBox('收到別家組織的款項')
     // refreshData()
 })
 
 socket.on('Settlement_Report_Finish', function (data) {
     console.log('Settlement_Report_Finish')
     console.log(data)
-    alert('報表產生 : ' + data)
+    alertBox('報表產生 : ' + data)
 })
 
 
@@ -68,17 +70,10 @@ $(document)
     usersData()
     orgData()
     queryReports()
+    // alertBox()
 });
 
 function refreshData() {    
-    clean()
-    clean_2()
-    shopsData()
-    usersData()
-    orgData()
-}
-
-function refreshData_2() {    
     clean()
     shopsData()
     usersData()
@@ -87,10 +82,6 @@ function refreshData_2() {
 
 function clean() {
     $('.clean').remove()
-}
-
-function clean_2() {
-    $('.clean_2').remove()
 }
 
 function queryReportsRefresh() {
@@ -147,7 +138,7 @@ $(document).on('click', '.settlementButton', function (event) {
     $.post('/trigger/settlement',{}, 
     (response) => {
         if (response.status == "ok"){
-            $('#settlementResult').append("<div class=\"clean_2\">清算成功</div>")
+            $('#settlementResult').append("<div class=\"clean\">清算成功</div>")
         }
         else{
             console.log(response)
@@ -206,4 +197,12 @@ function queryReports(seqNum){
             }
         }
     })
+}
+
+// Alert Box
+function alertBox(message){
+    $("#messageAlertBox").html(message)
+    $(".alert").fadeIn(2000);
+    $(".alert").delay(3000);
+    $(".alert").fadeOut(2000);
 }

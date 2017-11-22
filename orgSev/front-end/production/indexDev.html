@@ -35,8 +35,17 @@
       .nav_menu {
         background: #00a896;
       }
-      .orgName {
+      .changeColor {
         color: white;
+      }
+      .alert-fixed {
+        position:fixed; 
+        bottom: 0px; 
+        left: 0px; 
+        width: 100%;
+        z-index:9999; 
+        border-radius:0px;
+        margin-bottom: 0px;
       }
     </style>
   </head>
@@ -78,23 +87,6 @@
               </div>
             </div>
             <!-- /sidebar menu -->
-
-            <!-- /menu footer buttons -->
-            <div class="sidebar-footer hidden-small">
-              <a data-toggle="tooltip" data-placement="top" title="Settings">
-                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-              </a>
-              <a data-toggle="tooltip" data-placement="top" title="FullScreen">
-                <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
-              </a>
-              <a data-toggle="tooltip" data-placement="top" title="Lock">
-                <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
-              </a>
-              <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
-                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-              </a>
-            </div>
-            <!-- /menu footer buttons -->
           </div>
         </div>
         <!-- /Left bar -->
@@ -104,14 +96,14 @@
           <div class="nav_menu">
             <nav>
               <div class="nav toggle">
-                <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                <a id="menu_toggle" class="changeColor"><i class="fa fa-bars"></i></a>
               </div>
 
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile" aria-expanded="false">
                     <div style="display:flex">
-                      <img src="images/img.jpg" alt=""><div class="orgName"></div>
+                      <img src="images/img.jpg" alt=""><div class="orgName changeColor"></div>
                     </div>  
                   </a>
                   <!-- 覺得可以切換sev應該不錯 -->
@@ -152,7 +144,7 @@
 
 
           <div class="ln_solid"></div>
-          
+
           <!-- Database -->
           <div class="row">
             <!-- ShopData -->
@@ -260,6 +252,10 @@
             </div>
           </div>
           <!-- /Settlement with Org -->
+
+          <div class="alert alert-info alert-fixed" id="messageAlertBox" style="display:none; font-size: 16px;">
+              <!-- <strong>Success!</strong> Indicates a successful or positive action. -->
+            </div>
         </div>
         <!-- /page content -->
 
