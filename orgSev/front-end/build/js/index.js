@@ -57,6 +57,7 @@ socket.on('Settlement_Report_Finish', function (data) {
     console.log('Settlement_Report_Finish')
     console.log(data)
     alertBox('報表產生 : ' + data)
+    queryReportsRefresh()
 })
 
 
@@ -84,6 +85,7 @@ function clean() {
 }
 
 function queryReportsRefresh() {
+    console.log("queryReportsRefresh++++++++++")
     $('.reportTable').remove()
     queryReports()
 }
@@ -163,7 +165,7 @@ function settlementWithOrgButton(Phase, balance) {
     })
 }
 
-function queryReports(seqNum){
+function queryReports(){
     $.post('/query/reports',{}, 
     (response) => {
         // console.log(response)
@@ -173,7 +175,7 @@ function queryReports(seqNum){
                 var btn = ""
                 var Money = response.data.result[i].Me.Money
                 var Phase = response.data.result[i].Phase
-                if (response.data.result[i].HaveSettle != "true" && Money < 0){
+                if (response.data.result[i].HaveSettle != "true" && (Money < 0 || Money == 0)){
                     btn += "<button class='btn btn-sm btn-primary' type='button'"
                     btn += " onclick=\"settlementWithOrgButton(" + Phase + "," + Money + ")\"><i class=\"fa fa-money\"></i> 結清</button>"
                     
