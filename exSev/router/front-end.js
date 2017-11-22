@@ -5,10 +5,13 @@ var utils = require('../utils')
 var constants = require('../constants')
 var userData = require('../userData')
 var issuerService = require('../service/issuerServer')
+var path = require('path')
 function rewirte() {
     fs.writeFileSync(shopDataPath, shopData);
 }
-
+router.get('/', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../front-end/production/index.html'))
+})
 router.post('/exchange', (req, res) => {
     console.log("< exchange start >")
     let resHelper = new utils.responseHelper(res)
