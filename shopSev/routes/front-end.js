@@ -13,8 +13,12 @@ var shopData = require(DataPath)
 
 router.use(myParser.urlencoded({extended : true}));
 
+router.get('/', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../front-end/production/indexDev.html'))
+  })
+
 // ShopId Data
-router.post("/", (req, res) => {
+router.post("/ID", (req, res) => {
     var resJson = {    
         shopId : config.shopSevConfig.shopId,
         orgId : config.shopSevConfig.orgId

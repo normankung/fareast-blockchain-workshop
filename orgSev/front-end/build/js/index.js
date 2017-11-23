@@ -91,10 +91,10 @@ function queryReportsRefresh() {
 }
 
 function orgName(){
-    $.post('/', {}, 
+    $.post('/orgName', {}, 
     (response) => {
         $(".orgName").text(response.orgName + " 公司")
-        var pic = "images/" + response.orgName + ".png"
+        var pic = "../production/images/" + response.orgName + ".png"
         $(".orgPic").attr("src", pic)
     })
 }
