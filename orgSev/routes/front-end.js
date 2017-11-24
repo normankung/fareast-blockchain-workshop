@@ -20,8 +20,12 @@ var orgDataPath = '../db/' + dbPath + '/orgData.json'
 var OrgDataPath = path.join(__dirname, orgDataPath);
 var orgData = require(OrgDataPath)
 
+router.get('/', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../front-end/production/indexDev.html'))
+})
+
 /* GET OrgName */
-router.post('/', function(req, res) {
+router.post('/orgName', function(req, res) {
   var orgName = config.orgSevConfig.orgName;
   console.log(orgName)
   res.json({orgName:orgName});

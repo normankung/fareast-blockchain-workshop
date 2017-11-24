@@ -27,7 +27,7 @@ function clean() {
 }
 
 function shopId(){
-    $.post('/', {}, 
+    $.post('/ID', {}, 
     (response) => {
         let orgName = (response.orgId == "H") ? "HappyGo" : "Friday"
         $(".shopId").text(response.shopId + " 特約商")

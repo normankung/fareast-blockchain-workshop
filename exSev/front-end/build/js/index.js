@@ -19,7 +19,7 @@ function alertButtonOnClick(e) {
 function onSettleClick() {
     $.post('/settlement', {}, (response) => {
         if (response.status == 'ok') {
-            alert('本期清算完成')
+            alertBox('本期清算完成')
             userChange()
         } else {
             alert(response.result)
@@ -54,7 +54,7 @@ $(document).on('submit', '#ex-form', function (event) {
             pointAmount: pointAmount
         }, (response) => {
             if (response.status == 'ok') {
-                alert('點數交換成功')
+                alertBox('點數交換成功')
                 userChange()
             } else {
                 alert(response.result)
@@ -173,4 +173,12 @@ function showExchangeHistory(userID) {
         }
 
     })
+}
+
+// Alert Box
+function alertBox(message){
+    $("#messageAlertBox").html(message)
+    $(".alert").fadeIn(2000);
+    $(".alert").delay(3000);
+    $(".alert").fadeOut(2000);
 }

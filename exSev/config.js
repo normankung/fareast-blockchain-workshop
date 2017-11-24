@@ -7,7 +7,7 @@ var defaultConfig = {
     "port": "5003",
     "fabric": {
         "channelName": "mychannel",
-        "ccName": "r16",
+        "ccName": "r0",
         "user": {
             "enrollID": "orgAdmin",
             "enrollSecret": "87654321"
