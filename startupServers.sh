@@ -1,4 +1,5 @@
 export CHAINCODE_NAME=loyalty
+export channelName=mychannel
 export F_ADDRESS=http://localhost:5010
 export H_ADDRESS=http://localhost:5020 
 export EX_ADDRESS=http://localhost:5003 
