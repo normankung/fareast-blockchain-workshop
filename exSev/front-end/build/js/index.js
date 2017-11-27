@@ -55,7 +55,9 @@ $(document).on('submit', '#ex-form', function (event) {
         }, (response) => {
             if (response.status == 'ok') {
                 alertBox('點數交換成功')
-                userChange()
+                setTimeout(function () {
+                    userChange()
+                }, 500)
             } else {
                 alert(response.result)
             }
@@ -176,7 +178,7 @@ function showExchangeHistory(userID) {
 }
 
 // Alert Box
-function alertBox(message){
+function alertBox(message) {
     $("#messageAlertBox").html(message)
     $(".alert").fadeIn(2000);
     $(".alert").delay(3000);
