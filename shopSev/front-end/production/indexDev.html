@@ -47,66 +47,48 @@
         border-radius:0px;
         margin-bottom: 0px;
       }
+      .nav-sm .main_container .top_nav {
+        margin-left: 0px;
+      }
+      .nav-sm .container.body .right_col {
+        margin-left: 0px;
+      }
+      .nav-sm footer {
+        margin-left: 0px;
+      }
+      .topText {
+        padding-top:10px;
+        padding-bottom:10px;
+        padding-right:35px;
+        color: white;
+      }
+      .toggle {
+        width: 30%;
+        color: white;
+        padding-left: 30px;
+        padding-top: 8px;
+      }
+      /* body .container.body .right_col {
+        background: rgb(248, 239, 239);
+      } */
     </style>
   </head>
 
   <body class="nav-sm">
     <div class="container body">
       <div class="main_container">
-        <!-- Left bar -->
-        <div class="col-md-3 left_col">
-          <div class="left_col scroll-view">
-            <div class="navbar nav_title" style="border: 0;">
-              <a href="" class="site_title"><i class="fa fa-paw"></i> <span>組織伺服器</span></a>
-            </div>
-
-            <div class="clearfix"></div>
-
-            <!-- menu profile quick info -->
-            <div class="profile clearfix">
-              <div class="profile_pic">
-                <img src="../production/images/img.jpg" alt="..." class="img-circle profile_img">
-              </div>
-              <div class="profile_info">
-                <span>Welcome,</span>
-                <h2 class="shopId"></h2>
-              </div>
-            </div>
-            <!-- /menu profile quick info -->
-
-            <br />
-
-            <!-- sidebar menu -->
-            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
-              <div class="menu_section">
-                <h3>General</h3>
-                <ul class="nav side-menu">
-                  <li><a href=""><i class="fa fa-home"></i> 首頁 </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <!-- /sidebar menu -->
-          </div>
-        </div>
-        <!-- /Left bar -->
-
         <!-- top navigation -->
         <div class="top_nav">
           <div class="nav_menu">
             <nav>
               <div class="nav toggle">
-                <a id="menu_toggle" class="changeColor"><i class="fa fa-bars"></i></a>
+                <h3 class="orgNameSev"></h3>
+                <!-- <a id="menu_toggle" class="changeColor"><i class="fa fa-bars"></i></a> -->
               </div>
 
               <ul class="nav navbar-nav navbar-right">
-                <li class="">
-                  <a href="javascript:;" class="user-profile" aria-expanded="false">
-                    <div style="display:flex">
-                      <img src="../production/images/img.jpg" alt=""><div class="shopId changeColor"></div>
-                    </div>  
-                  </a>
-                  <!-- 覺得可以切換sev應該不錯 -->
+                <li class="topText">
+                  <h3 class="shopId pull-right"></h3>
                 </li>
               </ul>
             </nav>
@@ -119,12 +101,9 @@
 
           <!-- ShopData -->
           <div class="row x_title">
-            <div class="col-md-6">
-              <h3 class="orgNameSev"></h3>
+            <div class="col-md-12">
+              <h3 class="">特約商資料</h3>
             </div>
-            <div class="col-md-6">
-                <h3 class="pull-right shopId"></h3>
-              </div>
           </div>
 
           <div class="row tile_count">

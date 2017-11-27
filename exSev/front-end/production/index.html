@@ -28,73 +28,47 @@
     <link href="../build/css/custom.min.css" rel="stylesheet">
 
     <style type="text/css">
+        .tile_count .tile_stats_count {
+            border-bottom: 0px
+        }
         .alert-fixed {
-          position:fixed; 
-          bottom: 0px; 
-          left: 0px; 
-          width: 100%;
-          z-index:9999; 
-          border-radius:0px;
-          margin-bottom: 0px;
+            position:fixed; 
+            bottom: 0px; 
+            left: 0px; 
+            width: 100%;
+            z-index:9999; 
+            border-radius:0px;
+            margin-bottom: 0px;
+        }
+        .nav-sm .main_container .top_nav {
+            margin-left: 0px;
+        }
+        .nav-sm .container.body .right_col {
+            margin-left: 0px;
+        }
+        .nav-sm footer {
+            margin-left: 0px;
+        }
+        .toggle {
+            width: 30%;
+            padding-left: 30px;
+            padding-top: 8px;
         }
       </style>
 </head>
-
-<body class="nav-md">
+<!-- ../production/images/farest.png -->
+<!-- onSettleClick() -->
+<body class="nav-sm">
     <div class="container body">
         <div class="main_container">
-            <div class="col-md-3 left_col">
-                <div class="left_col scroll-view">
-                    <div class="navbar nav_title" style="border: 0;">
-                        <a href="" class="site_title"><img style="    width: 30%;" src="../production/images/farest.png" > <span>紅利點數交換</span></a>
-                    </div>
-
-                    <div class="clearfix"></div>
-
-                    <!-- menu profile quick info -->
-                    <div class="profile clearfix">
-                        <div class="profile_pic">
-                            <img src="../production/images/img.jpg" alt="..." class="img-circle profile_img">
-                        </div>
-                        <div class="profile_info">
-                            <span>您好</span>
-                            <h2 class="userName"></h2>
-                        </div>
-                    </div>
-                    <!-- /menu profile quick info -->
-
-                    <br />
-
-                    <!-- sidebar menu -->
-                    <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
-                        <div class="menu_section">
-                            <h3>General</h3>
-                            <ul class="nav side-menu">
-                                <li><a><i class="fa fa-home"></i> 首頁 <span class="fa fa-chevron-down"></span></a>
-                                    <ul class="nav child_menu">
-                                        <li><a href="">點數交換中心</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-
-
-                    </div>
-                    <!-- /sidebar menu -->
-                </div>
-                <div class="sidebar-footer hidden-small">
-                    <a style="width:100%" data-toggle="tooltip" data-placement="top" onclick="onSettleClick()" title="settle">
-                      <span class="glyphicon glyphicon-refresh" aria-hidden="true">清算</span>
-                    </a>
-                </div>
-            </div>
 
             <!-- top navigation -->
             <div class="top_nav">
                 <div class="nav_menu">
                     <nav>
                         <div class="nav toggle">
-                            <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                            <h3 class="">紅利積點交換系統</h3>
+                            <!-- <a id="menu_toggle"><i class="fa fa-bars"></i></a> -->
                         </div>
                         <ul class="nav navbar-nav navbar-right">
                             <li class="">
@@ -114,7 +88,11 @@
                                     <li><a class="userButton">使用者 D</a></li>
                                 </ul>
                             </li>
-
+                            <li role="presentation" class="dropdown">
+                                <a onclick="onSettleClick()" title="清算點數" href="" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa fa-calculator"></i>
+                                </a>
+                            </li>
                         </ul>
 
                     </nav>
@@ -125,15 +103,15 @@
             <!-- page content -->
             <div class="right_col" role="main">
                 <!-- top tiles -->
-                <div class="row tile_count" id="points">
-                    <div class="row x_title">
-                        <div class="col-md-6">
-                            <h3>點數餘額</h3>
-                        </div>
+                <div class="row x_title">
+                    <div class="col-md-12">
+                        <h3>點數餘額</h3>
                     </div>
-
                 </div>
+                <div class="row tile_count" id="points"></div>
                 <!-- /top tiles -->
+
+                <div class="ln_solid"></div>                
 
                 <div class="row">
                     <div class="col-md-12 col-sm-12 col-xs-12">

@@ -70,8 +70,8 @@ function items(){
 function shopData(){
     $.post('/shopData', {}, 
     (response) => {
-        $('.shopIssuePoint').text(response.issuePoint);
-        $('.shopHoldPoint').text(response.holdPoint);
+        $('.shopIssuePoint').text(response.issuePoint + " 點");
+        $('.shopHoldPoint').text(response.holdPoint + " 點");
         $('.shopBalance').text(response.balance);
     })
 }
@@ -85,7 +85,7 @@ $(document).on('submit', '#issuePointForm', function (event) {
     (response) => {
         if (response.status == "ok"){
             alertBox("成功發出" + event.target[0].value + "點")
-            $("#shopIssuePoint").text(response.issuePoint + " 點")
+            $(".shopIssuePoint").text(response.issuePoint + " 點")
         }
         else{
             alertBox("錯誤訊息！")
@@ -103,7 +103,7 @@ $(document).on('submit', '#holdPointForm', function (event) {
     (response) => {
         if (response.status == "ok"){
             alertBox("成功收到點數")
-            $("#shopHoldPoint").text(response.holdPoint + " 點")
+            $(".shopHoldPoint").text(response.holdPoint + " 點")
         }
         else{
             alertBox("錯誤訊息！")

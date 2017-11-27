@@ -1,3 +1,11 @@
+export CHAINCODE_NAME=loyalty
+export channelName=mychannel
+export F_ADDRESS=http://localhost:5010
+export H_ADDRESS=http://localhost:5020 
+export EX_ADDRESS=http://localhost:5003 
+export F_GATEWAY=http://localhost:4001
+export H_GATEWAY=http://localhost:4001
+export EX_GATEWAY=http://localhost:4001
 
 echo $CHAINCODE_NAME
 

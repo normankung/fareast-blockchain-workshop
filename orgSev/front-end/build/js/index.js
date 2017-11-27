@@ -93,7 +93,7 @@ function queryReportsRefresh() {
 function orgName(){
     $.post('/orgName', {}, 
     (response) => {
-        $(".orgName").text(response.orgName + " 公司")
+        $(".orgName").text(response.orgName + " Server")
         var pic = "../production/images/" + response.orgName + ".png"
         $(".orgPic").attr("src", pic)
     })
