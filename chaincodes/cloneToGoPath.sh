@@ -11,7 +11,7 @@ cd $locationNow
 
 # remove and replace
 rm -rf $GOPATH/src/$result
-cp -rf ${PWD} $GOPATH/src/
+cp -rf $locationNow $GOPATH/src/
 
 # go build
 cd $GOPATH/src/chaincodes/loyalty
