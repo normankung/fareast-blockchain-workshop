@@ -31,6 +31,12 @@
         .tile_count .tile_stats_count {
             border-bottom: 0px
         }
+        .nav_menu {
+            background: #00a896;
+        }
+        .changeColor {
+            color: white;
+        }
         .alert-fixed {
             position:fixed; 
             bottom: 0px; 
@@ -51,8 +57,11 @@
         }
         .toggle {
             width: 30%;
-            padding-left: 30px;
+            padding-left: 25px;
             padding-top: 8px;
+        }
+        .nav.navbar-nav > li > a:hover, .nav.navbar-nav > li > a:hover {
+            background: #00a896;
         }
       </style>
 </head>
@@ -67,16 +76,16 @@
                 <div class="nav_menu">
                     <nav>
                         <div class="nav toggle">
-                            <h3 class="">紅利積點交換系統</h3>
+                            <h3 class="changeColor">紅利積點交換系統</h3>
                             <!-- <a id="menu_toggle"><i class="fa fa-bars"></i></a> -->
                         </div>
                         <ul class="nav navbar-nav navbar-right">
                             <li class="">
 
-                                <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                <a href="javascript:;" title="切換使用者" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                     <div style="display:flex">
                                         <img src="../production/images/img.jpg" alt="">
-                                        <div class="userName"></div>
+                                        <div class="userName changeColor"></div>
                                     </div>
 
 
@@ -90,7 +99,7 @@
                             </li>
                             <li role="presentation" class="dropdown">
                                 <a onclick="onSettleClick()" title="清算點數" href="" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
-                                    <i class="fa fa-calculator"></i>
+                                    <i class="fa fa-calculator changeColor"></i>
                                 </a>
                             </li>
                         </ul>

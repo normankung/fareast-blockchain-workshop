@@ -29,12 +29,17 @@ sleep 2s
 curl -X POST $H_GATEWAY/chaincode/instantiate -H  "accept: application/json" -H  "Content-Type: application/json" -d "{  \"chaincodeName\": \"$CHAINCODE_NAME\",  \"channelName\": \"$channelName\",  \"chaincodeVersion\": \"v1\",  \"functionName\": \"Init\",  \"args\": [  ],  \"opt\": {      },  \"user\": {    \"enrollID\": \"orgAdmin\",    \"enrollSecret\": \"87654321\"  }}"
 echo
 
+echo "============================"
+echo "NPM install"
+echo "============================"
+cd ../script
+./npmInstall.sh
+
 # run org shop exchange sev
 echo "============================"
 echo "run org shop exchange sev"
 echo "============================"
-cd ../
-cd script
+cd ../script
 ./startupServers.sh
 
 echo "============================"
