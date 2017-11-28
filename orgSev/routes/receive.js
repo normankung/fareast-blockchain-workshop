@@ -114,32 +114,30 @@ router.post("/receive/receive", (req, res) => {
                 io.emit('shopReceivePoints')
             })
             .catch((e) => {
-                res.json({"status" : "fail", "reason":e})
+                // console.log(e.sdkResult[0].response)
+                res.json({"status" : "fail", "reason":e.sdkResult[0].response})
             })
     }
     else{
         // If user belong to org
         // Check User Point
         if (userData.user[userId].point < holdPoint) {
-            res.json({status: "Fail", reason: "User's issuePoint is no enough!"});
+            res.json({status: "fail", reason: "使用者持有點數不足！"});
         }
         else{
-            userData.user[userId].point -= holdPoint;        
+            userData.user[userId].point -= holdPoint; 
+            shopData.shop[shopId].holdPoint += holdPoint;   
+            // rewrite into db
+            reWrite("shop");
+            reWrite("user");
+
+            var url = config.EX_ADDRESS + "/user/deductPoint"
+            callAPI(url, {result:userId})
+
+            // response
+            res.json({status: 'ok', api: 'receive/receive', reason: ''})
+            io.emit('shopReceivePoints')    
         }
-
-        // Update shopData
-        shopData.shop[shopId].holdPoint += holdPoint;
-
-        // rewrite into db
-        reWrite("shop");
-        reWrite("user");
-
-        var url = config.EX_ADDRESS + "/user/deductPoint"
-        callAPI(url, {result:userId})
-
-        // response
-        res.json({status: 'ok', api: 'receive/receive', reason: ''})
-        io.emit('shopReceivePoints')
     }
 })
 

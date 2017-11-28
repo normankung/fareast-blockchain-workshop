@@ -62,8 +62,9 @@ func (t *SimpleChaincode) insertNewUser(stub shim.ChaincodeStubInterface, args [
 	// userDb := userQuery.GetDb()
 	// queryString := db.FormatQueryString([]string{"UserID", userID})
 	// userfindBytes, err := userDb.Find(stub, queryString)
-	// if err != nil {
+	// if len(userfindBytes) != 0 {
 	// 	logger.Debug(userfindBytes)
+	// 	logger.Debug(err)
 	// 	return shim.Error("User exists!")
 	// }
 

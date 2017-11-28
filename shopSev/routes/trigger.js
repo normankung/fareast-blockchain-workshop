@@ -98,7 +98,7 @@ router.post("/trigger/receive", (req, res) => {
             res.json({status: 'ok', holdPoint: shopData.holdPoint, api: 'trigger/receive', reason: ''});      
         }
         else{
-            res.json(resp)  
+            res.json({status: 'fail', reason: resp.reason})  
         }
     });
 })
