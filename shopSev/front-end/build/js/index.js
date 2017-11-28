@@ -40,7 +40,7 @@ function orgId(){
     $.post('/orgId', {}, 
     (response) => {
         if (response.orgId == "H"){
-            var urlCss = "production/css/happygo.css"
+            var urlCss = "production/css/indexDev／happygo.css"
             $('body').append('<link rel="stylesheet" type="text/css" href='+ urlCss +'>')
 
             var options = ""
