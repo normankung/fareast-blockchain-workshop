@@ -6,8 +6,6 @@ locationNow=$(pwd)
 echo $result
 echo $locationNow
 
-cd ../../../
-GOPATH=$(pwd)
 echo $GOPATH
 
 # remove and replace

@@ -3,8 +3,6 @@ result=${PWD##*/}
 locationNow=$(pwd)
 echo $result
 
-cd ../../
-GOPATH=$(pwd)
 echo "GOPATH : " $GOPATH
 
 cd $locationNow
