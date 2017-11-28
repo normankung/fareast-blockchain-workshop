@@ -9,7 +9,7 @@ echo "trigger to install chaincode"
 echo "============================"
 curl -X POST $H_GATEWAY/chaincode/install -H  "accept: application/json" -H  "Content-Type: application/json" -d "{  \"chaincodeName\": \"$CHAINCODE_NAME\",  \"channelName\": \"$channelName\",  \"chaincodePath\": \"chaincodes/loyalty\",  \"chaincodeVersion\": \"v1\",  \"sourceType\": \"sourceCode\",  \"langType\": \"golang\",  \"user\": {    \"enrollID\": \"orgAdmin\",    \"enrollSecret\": \"87654321\"  }}"
 echo
-./run_chaincodeUser.sh
+./4_runChaincodeUser.sh
 # curl -X POST $F_GATEWAY/chaincode/install -H  "accept: application/json" -H  "Content-Type: application/json" -d "{  \"chaincodeName\": \"$CHAINCODE_NAME\",  \"channelName\": \"$channelName\",  \"chaincodePath\": \"chaincodes/loyalty\",  \"chaincodeVersion\": \"v1\",  \"sourceType\": \"sourceCode\",  \"langType\": \"golang\",  \"user\": {    \"enrollID\": \"orgAdmin\",    \"enrollSecret\": \"87654321\"  }}"
 sleep 2s
 # #instantiate from gateway 1

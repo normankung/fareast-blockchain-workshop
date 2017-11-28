@@ -1,3 +1,4 @@
+pkill user
 filename=user
 cd ../chaincodes/$filename
 echo $(pwd)

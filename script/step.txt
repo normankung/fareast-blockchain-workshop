@@ -1,0 +1,23 @@
+# Download Hyperledger Fabric Gateway and Install
+1.	clone HYPERLEDGER-FABRIC-GATEWAY
+2.	cd HYPERLEDGER-FABRIC-GATEWAY
+3.	npm install
+
+# Download Fareast Workshop and Install
+4.	cd ..
+5.	clone FAREAST-WORKSHOP
+6.	cd FAREAST-WORKSHOP
+7.	npm install
+
+# Initial network and run Servers
+8.	cd script
+9.	./1_initialNetwork.sh
+10.	./2_runFareast.sh
+
+# Build User Chaincodes 
+11.	./3_registerChaincodeUser.sh
+
+# Rebuild User Chaincode
+12. ./4_runChaincodeUser.sh
+
+## Others ##
