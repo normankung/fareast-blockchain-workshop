@@ -94,6 +94,8 @@ function orgName(){
     $.post('/orgName', {}, 
     (response) => {
         $(".orgName").text(response.orgName + " Server")
+        var urlCss = "production/css/" + response.orgName + ".css"
+        $('body').append('<link rel="stylesheet" type="text/css" href='+ urlCss +'>')        
         var pic = "../production/images/" + response.orgName + ".png"
         $(".orgPic").attr("src", pic)
     })

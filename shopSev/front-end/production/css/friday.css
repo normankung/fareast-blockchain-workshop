@@ -1,0 +1,83 @@
+body .container.body .right_col {
+    background: rgb(237, 237, 237)
+}
+
+body {
+    color: #383635
+}
+.x_title {
+    border-bottom: 2px solid #E6E9ED;
+}
+
+.nav_menu {
+    background: #ffffff;
+}
+
+/* Table thead */
+table.jambo_table thead {
+    background: rgb(56, 54, 53);
+}
+
+/* Button */
+.btn-primary {
+    color: #fff;
+    background-color: #383635;
+    border-color: #383635;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary:active:focus, .btn-primary:active:hover {
+    color: #fff;
+    background-color: #6d6764;
+    border-color: #6d6764;
+}
+
+/* Table */
+.x_panel {
+    background: #ededed;
+    border: 1px solid #a8a9ab;
+}
+
+.x_title {
+    border-bottom: 1px solid #a8a9ab;
+}
+
+.panel_toolbox>li>a {
+    color: #a8a9ab;
+}
+
+table.jambo_table tbody tr:hover td {
+    /* background: rgba(38,185,154,.07); */
+    /* border-top: 1px solid rgba(38,185,154,.11); */
+    /* border-bottom: 1px solid rgba(38,185,154,.11); */
+    background: white
+}
+
+table.jambo_table tbody tr td {
+    /* background: rgba(38,185,154,.07); */
+    /* border-top: 1px solid rgba(38,185,154,.11); */
+    /* border-bottom: 1px solid rgba(38,185,154,.11); */
+    background: white
+}
+
+/* Line */
+.ln_solid {
+    border-top: 1px solid #a8a9ab;
+}
+
+/* Picture Top */
+.toggle {
+    width: 30%;
+    /* color: white; */
+    padding-left: 25px;
+    padding-top: 8px;
+}
+
+.orgPic{
+    width: 170px;
+}
+
+.top-img {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 28px;
+  }

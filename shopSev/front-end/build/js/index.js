@@ -40,17 +40,24 @@ function orgId(){
     $.post('/orgId', {}, 
     (response) => {
         if (response.orgId == "H"){
+            var urlCss = "production/css/happygo.css"
+            $('body').append('<link rel="stylesheet" type="text/css" href='+ urlCss +'>')
+
             var options = ""
             options += "<option>C</option>"
             options += "<option>D</option>"
             $('#users').append(options)
         }
         else{
+            var urlCss = "production/css/friday.css"
+            $('body').append('<link rel="stylesheet" type="text/css" href='+ urlCss +'>')
+
             var options = ""
             options += "<option>A</option>"
             options += "<option>B</option>"
             $('#users').append(options)
         }
+        
     })
 }
 
