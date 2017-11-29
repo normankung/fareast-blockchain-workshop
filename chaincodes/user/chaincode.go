@@ -48,7 +48,21 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface) pb.Response {
 
 	return shim.Error("Invoke did not find func: " + function)
 }
+func (t *SimpleChaincode) exchangePoint(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 
+	// userID := args[1]
+	// sourceOrgID := args[2]
+	// targetOrgID := args[3]
+	// pointAmountString := args[4]
+
+	return shim.Success([]byte(""))
+}
+func (t *SimpleChaincode) redeemPoint(stub shim.ChaincodeStubInterface, args []string) pb.Response {
+	// userID := args[1]
+	// sourceOrgID := args[2]
+	// pointAmountString := args[3]
+	return shim.Success([]byte(""))
+}
 func (t *SimpleChaincode) insertNewUser(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	if length := len(args); length != 3 {
 		return shim.Error("Error args lens, expect 3")
