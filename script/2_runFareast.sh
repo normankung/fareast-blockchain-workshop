@@ -11,8 +11,13 @@ echo "//////////////////////////////////"
 echo "Copy chaincodes files"
 echo "//////////////////////////////////"
 cd ../
-cd chaincodes
+cd chaincodes/chaincode-DbWrapv1.0
 ./cloneToGoPath.sh
+cd ../chaincode-localRWv1.0
+./cloneToGoPath.sh
+cd ../loyalty
+./cloneToGoPath.sh
+
 echo "//////////////////////////////////"
 echo "Finish Copy chaincodes files"
 echo "//////////////////////////////////"
@@ -33,7 +38,7 @@ echo
 echo "============================"
 echo "run org shop exchange sev"
 echo "============================"
-cd ../script
+cd ../../script
 ./startupServers.sh
 
 echo "============================"
