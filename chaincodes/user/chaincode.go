@@ -85,9 +85,7 @@ func (t *SimpleChaincode) queryUser(stub shim.ChaincodeStubInterface, args []str
 	queryString := db.FormatQueryString([]string{"UserID", userID})
 	userbytes, err := userDb.FindOne(stub, queryString)
 	if err != nil {
-		logger.Debug(err)
-		finalErr := err.(error).Error()
-		return shim.Error(finalErr)
+		return shim.Error("UserID is not exist")
 	}
 	user.ParseJSON(string(userbytes))
 
@@ -114,9 +112,7 @@ func (t *SimpleChaincode) updatePoints(stub shim.ChaincodeStubInterface, args []
 	queryString := db.FormatQueryString([]string{"UserID", userID})
 	userbytes, err := userDb.FindOne(stub, queryString)
 	if err != nil {
-		logger.Debug(err)
-		finalErr := err.(error).Error()
-		return shim.Error(finalErr)
+		return shim.Error("UserID is not exist")
 	}
 	user.ParseJSON(string(userbytes))
 
