@@ -95,6 +95,9 @@ func (db *DbStruct) FindOne(stub shim.ChaincodeStubInterface, queryString string
 	if len(findResultsBytes) == 0 {
 		return nil, nil
 	}
+	if len(findResultsBytes) == 2 {
+		return nil, fmt.Errorf("Data did not exist")
+	}
 	findResults := ParseFindResults(findResultsBytes)
 	return []byte(findResults[0]), nil
 }
