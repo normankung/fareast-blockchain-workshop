@@ -88,16 +88,21 @@ $(document).on('submit', '#issuePointForm', function (event) {
     event.preventDefault()
     var issuePoint = event.target[0].value
     var userId = event.target[1].value
-    $.post('/trigger/issue', {userId: userId, issuePoint: issuePoint}, 
-    (response) => {
-        if (response.status == "ok"){
-            alertBox("成功發出" + event.target[0].value + "點")
-            $(".shopIssuePoint").text(response.issuePoint + " 點")
-        }
-        else{
-            alertBox("錯誤訊息！")
-        }
-    })
+    
+    if (isNaN(issuePoint)){
+        alert("請輸入數字！")
+    } else {
+        $.post('/trigger/issue', {userId: userId, issuePoint: issuePoint}, 
+        (response) => {
+            if (response.status == "ok"){
+                alertBox("成功發出" + event.target[0].value + "點")
+                $(".shopIssuePoint").text(response.issuePoint + " 點")
+            }
+            else{
+                alertBox("錯誤訊息！")
+            }
+        })
+    }
 })  
 
 // 特約商收到點數
@@ -113,7 +118,7 @@ $(document).on('submit', '#holdPointForm', function (event) {
             $(".shopHoldPoint").text(response.holdPoint + " 點")
         }
         else{
-            alertBox("錯誤訊息！")
+            alertBox(response.reason)
         }
     })
 })  
