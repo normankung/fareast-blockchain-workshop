@@ -13,7 +13,7 @@ rm -rf $GOPATH/src/chaincodes/$result
 cp -rf $locationNow $GOPATH/src/chaincodes
 
 # go build
-cd $GOPATH/src/chaincodes/$locationNow
+cd $GOPATH/src/chaincodes/$result
 # govendor init
 # govendor add +external
 GOPATH=$GOPATH go build
