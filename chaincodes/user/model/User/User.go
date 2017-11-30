@@ -1,10 +1,9 @@
 package User
 
 import (
-	"chaincodes/user/interfaces"
 	"fmt"
 
-	db "chaincodes/chaincode-DbWrapv1.0"
+	db "chaincodes/chaincode-DbWrap"
 
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 )
@@ -25,10 +24,10 @@ func (o *User) SetModelName(modelName string) {
 	o.ModelName = modelName
 }
 func (o *User) ParseJSON(dataJSON string) error {
-	return interfaces.ParseJSON(dataJSON, o)
+	return db.ParseJSON(dataJSON, o)
 }
 func (o *User) ToJSON() (string, error) {
-	return interfaces.ToJSON(o)
+	return db.ToJSON(o)
 }
 
 func (o *User) Insert(stub shim.ChaincodeStubInterface) (string, error) {

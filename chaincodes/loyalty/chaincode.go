@@ -26,8 +26,7 @@ import (
 	"fmt"
 	"reflect"
 
-	localRW "chaincodes/chaincode-localRWv1.0"
-
+	db "chaincodes/chaincode-DbWrap"
 	"chaincodes/loyalty/control"
 
 	"github.com/hyperledger/fabric/core/chaincode/shim"
@@ -76,7 +75,7 @@ func CallFuncByName(myClass interface{}, stub shim.ChaincodeStubInterface, funcN
 	if !m.IsValid() {
 		return nil, fmt.Sprintf("Method not found \"%s\"", funcName)
 	}
-	localRWInstance := localRW.NewLocalRWInstance(stub)
+	db.SetAllSeqToZero()
 	in := make([]reflect.Value, 0)
 	in = append(in, reflect.ValueOf(stub))
 	in = append(in, reflect.ValueOf(args))
@@ -84,16 +83,10 @@ func CallFuncByName(myClass interface{}, stub shim.ChaincodeStubInterface, funcN
 	result := out[0].Bytes()
 	finalErr := ""
 	err := out[1].Interface()
-
-	if err == nil {
-		fErr := localRWInstance.FinishPutState()
-		if fErr != nil {
-			finalErr = fErr.Error()
-		}
-	} else {
-
+	if err != nil {
 		finalErr = err.(error).Error()
 	}
+
 	return result, finalErr
 }
 

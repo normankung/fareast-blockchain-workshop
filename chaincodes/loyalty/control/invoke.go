@@ -17,7 +17,7 @@ import (
 	"fmt"
 	"strconv"
 
-	db "chaincodes/chaincode-DbWrapv1.0"
+	db "chaincodes/chaincode-DbWrap"
 
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 )

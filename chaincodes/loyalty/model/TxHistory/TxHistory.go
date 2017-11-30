@@ -1,10 +1,9 @@
 package TxHistory
 
 import (
-	"chaincodes/loyalty/interfaces"
 	"fmt"
 
-	db "chaincodes/chaincode-DbWrapv1.0"
+	db "chaincodes/chaincode-DbWrap"
 
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 )
@@ -33,10 +32,10 @@ func (o *TxHistory) SetModelName(modelName string) {
 	o.ModelName = modelName
 }
 func (o *TxHistory) ParseJSON(dataJSON string) error {
-	return interfaces.ParseJSON(dataJSON, o)
+	return db.ParseJSON(dataJSON, o)
 }
 func (o *TxHistory) ToJSON() (string, error) {
-	return interfaces.ToJSON(o)
+	return db.ToJSON(o)
 }
 func (o *TxHistory) Insert(stub shim.ChaincodeStubInterface) (string, error) {
 	seqNum, err := Db.Insert(stub, o)

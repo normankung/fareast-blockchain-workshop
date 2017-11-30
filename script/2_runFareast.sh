@@ -1,8 +1,8 @@
 export CHAINCODE_NAME=loyalty
 export channelName=mychannel
 export F_ADDRESS=http://localhost:5010
-export H_ADDRESS=http://localhost:5020 
-export EX_ADDRESS=http://localhost:5003 
+export H_ADDRESS=http://localhost:5020
+export EX_ADDRESS=http://localhost:5003
 export F_GATEWAY=http://localhost:4001
 export H_GATEWAY=http://localhost:4001
 export EX_GATEWAY=http://localhost:4001
@@ -11,9 +11,7 @@ echo "//////////////////////////////////"
 echo "Copy chaincodes files"
 echo "//////////////////////////////////"
 cd ../
-cd chaincodes/chaincode-DbWrapv1.0
-./cloneToGoPath.sh
-cd ../chaincode-localRWv1.0
+cd chaincodes/chaincode-DbWrap
 ./cloneToGoPath.sh
 cd ../loyalty
 ./cloneToGoPath.sh
