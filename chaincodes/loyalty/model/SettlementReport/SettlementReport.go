@@ -1,10 +1,8 @@
 package SettlementReport
 
 import (
-	"chaincodes/loyalty/interfaces"
+	db "chaincodes/chaincode-DbWrap"
 	"fmt"
-
-	db "chaincodes/chaincode-DbWrapv1.0"
 
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 )
@@ -31,10 +29,10 @@ func (o *SettlementReport) SetModelName(modelName string) {
 	o.ModelName = modelName
 }
 func (o *SettlementReport) ParseJSON(dataJSON string) error {
-	return interfaces.ParseJSON(dataJSON, o)
+	return db.ParseJSON(dataJSON, o)
 }
 func (o *SettlementReport) ToJSON() (string, error) {
-	return interfaces.ToJSON(o)
+	return db.ToJSON(o)
 }
 func (o *SettlementReport) Insert(stub shim.ChaincodeStubInterface) (string, error) {
 	seqNum, err := Db.Insert(stub, o)

@@ -5,9 +5,7 @@ import (
 	"fmt"
 	"strconv"
 
-	db "chaincodes/chaincode-DbWrapv1.0"
-
-	localRW "chaincodes/chaincode-localRWv1.0"
+	db "chaincodes/chaincode-DbWrap"
 
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	pb "github.com/hyperledger/fabric/protos/peer"
@@ -22,12 +20,9 @@ type SimpleChaincode struct {
 func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface) pb.Response {
 	logger.Debug("in the init func")
 
-	localRWInstance := localRW.NewLocalRWInstance(stub)
 	// Insert Data
 	user := &User.User{"", "A", "0", ""}
 	user.Insert(stub)
-
-	localRWInstance.FinishPutState()
 
 	return shim.Success([]byte("Success Init"))
 }
@@ -49,14 +44,27 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface) pb.Response {
 	// Function Name Error
 	return shim.Error("Invoke did not find func: " + function)
 }
+func (t *SimpleChaincode) exchangePoint(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 
+	// userID := args[1]
+	// sourceOrgID := args[2]
+	// targetOrgID := args[3]
+	// pointAmountString := args[4]
+
+	return shim.Success([]byte(""))
+}
+func (t *SimpleChaincode) redeemPoint(stub shim.ChaincodeStubInterface, args []string) pb.Response {
+	// userID := args[1]
+	// sourceOrgID := args[2]
+	// pointAmountString := args[3]
+	return shim.Success([]byte(""))
+}
 func (t *SimpleChaincode) insertNewUser(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	if length := len(args); length != 3 {
 		return shim.Error("Error args lens, expect 3")
 	}
 	userID := args[1]
 	points := args[2]
-	localRWInstance := localRW.NewLocalRWInstance(stub)
 
 	// Check userID exist or not
 	userQuery := &User.User{}
@@ -71,7 +79,6 @@ func (t *SimpleChaincode) insertNewUser(stub shim.ChaincodeStubInterface, args [
 	// Insert Data
 	user := &User.User{"", userID, points, ""}
 	user.Insert(stub)
-	localRWInstance.FinishPutState()
 	logger.Debug("Insert Finish")
 	return shim.Success([]byte("Success insertNewUser"))
 }
@@ -104,9 +111,13 @@ func (t *SimpleChaincode) updatePoints(stub shim.ChaincodeStubInterface, args []
 	user := &User.User{}
 	userDb := user.GetDb()
 
+<<<<<<< HEAD
 	localRWInstance := localRW.NewLocalRWInstance(stub)
 
 	// Check UserID exist or not
+=======
+	// Query
+>>>>>>> master
 	queryString := db.FormatQueryString([]string{"UserID", userID})
 	userbytes, err := userDb.FindOne(stub, queryString)
 	if len(userbytes) == 0 {
@@ -135,7 +146,6 @@ func (t *SimpleChaincode) updatePoints(stub shim.ChaincodeStubInterface, args []
 		logger.Debug(err)
 		return shim.Error(err.(error).Error())
 	}
-	localRWInstance.FinishPutState()
 	return shim.Success([]byte("Success Update user"))
 }
 
