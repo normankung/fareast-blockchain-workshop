@@ -14,15 +14,20 @@ type DbStruct struct {
 	Name            string
 	SeqNumberLength string
 	seqNumber       int
+	txID            string
 }
 
 func (db *DbStruct) seqNumToZero() {
 	db.seqNumber = 0
 }
 func (db *DbStruct) Insert(stub shim.ChaincodeStubInterface, data ModelInterface) (string, error) {
-
+	currentTxID := stub.GetTxID()
+	if currentTxID != db.txID {
+		db.txID = currentTxID
+		db.seqNumToZero()
+	}
 	seqString := strconv.Itoa(db.seqNumber)
-	formatedSeqString := stub.GetTxID() + seqString
+	formatedSeqString := currentTxID + seqString
 	fmt.Printf("formatted seq Num for %s ", db.Name)
 	fmt.Println(formatedSeqString)
 	data.SetSeqNumber(formatedSeqString)

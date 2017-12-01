@@ -26,7 +26,6 @@ import (
 	"fmt"
 	"reflect"
 
-	db "chaincodes/chaincode-DbWrap"
 	"chaincodes/loyalty/control"
 
 	"github.com/hyperledger/fabric/core/chaincode/shim"
@@ -75,7 +74,6 @@ func CallFuncByName(myClass interface{}, stub shim.ChaincodeStubInterface, funcN
 	if !m.IsValid() {
 		return nil, fmt.Sprintf("Method not found \"%s\"", funcName)
 	}
-	db.SetAllSeqToZero()
 	in := make([]reflect.Value, 0)
 	in = append(in, reflect.ValueOf(stub))
 	in = append(in, reflect.ValueOf(args))

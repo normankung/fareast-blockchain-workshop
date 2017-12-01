@@ -43,12 +43,7 @@ func GetDbByName(dbName string) (error, *DbStruct) {
 	return nil, db
 }
 func NewDb(name string, seqNumberLength string) *DbStruct {
-	db := &DbStruct{name, seqNumberLength, 0}
+	db := &DbStruct{name, seqNumberLength, 0, "0"}
 	dbMap[name] = db
 	return db
-}
-func SetAllSeqToZero() {
-	for _, db := range dbMap {
-		db.seqNumToZero()
-	}
 }
