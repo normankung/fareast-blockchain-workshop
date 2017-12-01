@@ -11,13 +11,17 @@
 
 # Initial network and run Servers
 8.	cd script
-9.	./1_initialNetwork.sh
-10.	./2_runFareast.sh
+9.	./1.initialNetwork.sh
+10.	./2.runFareast.sh
 
 # Build User Chaincodes 
-11.	./3_registerChaincodeUser.sh
+11.	./3.registerChaincodeUser.sh
 
 # Rebuild User Chaincode
-12. ./4_runChaincodeUser.sh
+12. ./4.runChaincodeUser.sh
 
-## Others ##
+# Test Chaincode
+13. ./5.testScript
+14. ./chaincodeCreateUser.sh
+15. ./chaincodeQuery.sh
+16. ./chaincodeUpdate.sh

@@ -46,6 +46,7 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface) pb.Response {
 		return t.updatePoints(stub, args)
 	}
 
+	// Function Name Error
 	return shim.Error("Invoke did not find func: " + function)
 }
 
@@ -62,8 +63,8 @@ func (t *SimpleChaincode) insertNewUser(stub shim.ChaincodeStubInterface, args [
 	userDb := userQuery.GetDb()
 	queryString := db.FormatQueryString([]string{"UserID", userID})
 	userfindBytes, err := userDb.FindOne(stub, queryString)
-	if err == nil {
-		logger.Debug(userfindBytes)
+	if len(userfindBytes) != 0 {
+		logger.Debug(err)
 		return shim.Error("UserID is exist")
 	}
 
@@ -82,19 +83,16 @@ func (t *SimpleChaincode) queryUser(stub shim.ChaincodeStubInterface, args []str
 	userID := args[1]
 	user := &User.User{}
 	userDb := user.GetDb()
+
+	// Check UserID exist or not
 	queryString := db.FormatQueryString([]string{"UserID", userID})
 	userbytes, err := userDb.FindOne(stub, queryString)
-	if err != nil {
+	if len(userbytes) == 0 {
+		logger.Debug(err)
 		return shim.Error("UserID is not exist")
 	}
-	user.ParseJSON(string(userbytes))
 
-	userJSON, err := user.ToJSON()
-	if err != nil {
-		return shim.Error(err.(error).Error())
-	}
-
-	return shim.Success([]byte(userJSON))
+	return shim.Success(userbytes)
 }
 
 func (t *SimpleChaincode) updatePoints(stub shim.ChaincodeStubInterface, args []string) pb.Response {
@@ -108,10 +106,10 @@ func (t *SimpleChaincode) updatePoints(stub shim.ChaincodeStubInterface, args []
 
 	localRWInstance := localRW.NewLocalRWInstance(stub)
 
-	// Query
+	// Check UserID exist or not
 	queryString := db.FormatQueryString([]string{"UserID", userID})
 	userbytes, err := userDb.FindOne(stub, queryString)
-	if err != nil {
+	if len(userbytes) == 0 {
 		return shim.Error("UserID is not exist")
 	}
 	user.ParseJSON(string(userbytes))
