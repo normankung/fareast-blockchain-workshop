@@ -20,8 +20,5 @@
 # Rebuild User Chaincode
 12. ./4.runChaincodeUser.sh
 
-# Test Chaincode
+# Invoke Chaincode
 13. ./5.testScript
-14. ./chaincodeCreateUser.sh
-15. ./chaincodeQuery.sh
-16. ./chaincodeUpdate.sh

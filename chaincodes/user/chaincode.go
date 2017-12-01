@@ -111,13 +111,7 @@ func (t *SimpleChaincode) updatePoints(stub shim.ChaincodeStubInterface, args []
 	user := &User.User{}
 	userDb := user.GetDb()
 
-<<<<<<< HEAD
-	localRWInstance := localRW.NewLocalRWInstance(stub)
-
-	// Check UserID exist or not
-=======
 	// Query
->>>>>>> master
 	queryString := db.FormatQueryString([]string{"UserID", userID})
 	userbytes, err := userDb.FindOne(stub, queryString)
 	if len(userbytes) == 0 {
