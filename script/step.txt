@@ -12,9 +12,9 @@
 # Initial network and run Servers
 8.	cd script
 9.	./1.initialNetwork.sh
-10.	./2.runFareast.sh
+10.	./2.runPointExchangeDemo.sh
 
-# Build User Chaincodes 
+# Build User Chaincodes
 11.	./3.registerChaincodeUser.sh
 
 # Rebuild User Chaincode
