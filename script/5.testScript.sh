@@ -4,9 +4,9 @@ channelName=mychannel
 # insertNewUser ／ queryUser ／ updatePoints ／ exchangePoint ／ redeemPoint
 functionName=insertNewUser
 
-# ["userID","Points"] / ["userID"] / ["userID","Points"] / [] / []
+# [\"userID\",\"Points\"] / [\"userID\"] / [\"userID\",\"Points\"] / [] / []
 # Points must be string type
-args=["B","0"]
+args=[\"B\",\"0\"]
 
 echo "==============Invoke=================="
 echo
