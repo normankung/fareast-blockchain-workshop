@@ -11,6 +11,7 @@ echo "//////////////////////////////////"
 echo "Copy chaincodes files"
 echo "//////////////////////////////////"
 cd ../
+npm install
 cd chaincodes/chaincode-DbWrap
 ./cloneToGoPath.sh
 cd ../loyalty
